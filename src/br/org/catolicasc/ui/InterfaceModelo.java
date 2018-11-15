@@ -2,7 +2,6 @@ package br.org.catolicasc.ui;
 
 import java.util.Scanner;
 
-import bib.ui.InterfaceTexto.Estado;
 
 public abstract class InterfaceModelo {
 
@@ -37,6 +36,10 @@ public abstract class InterfaceModelo {
 		System.out.println();
 		System.out.println("\tEM TELA PRINCIPAL");
 	}
+	protected abstract void menuCliente();
+	protected abstract void menuDvd();
+	protected abstract void menuPrincipal();
+	
 	
 	
 	

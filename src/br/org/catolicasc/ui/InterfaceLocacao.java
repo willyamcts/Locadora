@@ -1,5 +1,6 @@
 package br.org.catolicasc.ui;
 
+
 public class InterfaceLocacao extends InterfaceModelo {
 
 	@Override
@@ -24,4 +25,8 @@ public class InterfaceLocacao extends InterfaceModelo {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
 }
