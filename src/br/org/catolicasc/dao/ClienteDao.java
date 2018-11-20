@@ -1,150 +1,146 @@
-package br.org.catolicasc.dao;
+package dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
+import javax.persistence.EntityManager;
+import jpa.ConnectionFactory;
+import model.Cliente;
 
-import br.org.catolicasc.dao.DbConnection;
-
-public class ClienteDao implements Dao<Cliente> {	
+public class ClienteDao {
 	
-	private static final String GET_BY_ID = "SELECT * FROM cliente WHERE id = ?";
-	private static final String GET_ALL = "SELECT * FROM cliente";
-	private static final String INSERT = "INSERT INTO cliente (nome, cpf, endereco, telefone, locador) "
-			+ "VALUES (?, ?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE cliente SET nome = ?, cpf = ?, endereco = ?, "
-			+ "telefone = ?, locador = ? WHERE id = ?";
-	private static final String DELETE = "DELETE FROM cliente WHERE id = ?";
-
+	private EntityManager em = new ConnectionFactory().getEntityManager();
 	
-//Construtor da classe, ja cria a tabela no db;
-	public ClienteDao() {
-		try {
-			createTable();
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao criar tabela no banco.", e);
-		}
-	}
-	
-	
-//Metodo que cria a tabela 	
-	private void createTable() throws SQLException {
-	    String sqlTable = "CREATE TABLE IF NOT EXISTS cliente"
-	            + "  (id           INTEGER,"
-	            + "   nome            VARCHAR(50),"
-	            + "   cpf			  BIGINT,"
-	            + "   endereco           VARCHAR(255),"
-	            + "   telefone           BIGINT,"
-	            + "   locador       INTEGER,"
-	            + "   PRIMARY KEY (id))";
-	    
-	    Connection conn = DbConnection.getConnection();
-
-
-	    Statement stmt = conn.createStatement();
-	    stmt.execute(sqlTable);
-	    
-	    close(conn, stmt, null);
-	}
-	
-	
-//Metodos que insere clientes no banco
-	@Override
-	public void insert(Cliente cliente) {
-		Connection conn = DbConnection.getConnection();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		int getLocador = 0; //false
-		
-		if (cliente.isLocador()) {
-			getLocador = 1;
-		}
+	/*
+	 * Create
+	 */
+	public String salva(Cliente c) {
+		String status = null;
 		
 		try {
-			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, cliente.getNome());
-			stmt.setLong(2, cliente.getCpf());
-			stmt.setString(3, cliente.getEndereco());
-			stmt.setLong(4, cliente.getTelefone());
-			stmt.setInt(5, getLocador);
+			em.getTransaction().begin();
+			em.persist(c);
+			em.getTransaction().commit();
+			status = "\n\t Inserido cliente com sucesso!!!";
 			
-			stmt.executeUpdate();
-			rs = stmt.getGeneratedKeys();
-			
-			if (rs.next()) {
-				cliente.setId(rs.getInt(1));
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao inserir cliente.", e);
-		}finally {
-			close(conn, stmt, rs);
+		} catch (Exception e) {
+			System.err.println("Erro: " +e);;
+		} finally {
+			em.close();
 		}
-
+		
+		return status;
 	}
+	
+	
+	/*
+	 * Read by Id
+	 */
+	public Cliente pesquisa(int id) {
+		Cliente c = new Cliente();
+		
+		if ( id > 0 ){
+			
+			try { 
+				c = em.find(Cliente.class, id);
+			} catch (Exception e){
+				System.err.println("Erro READ cliente: " +e);
+			} finally {
+				//em.close();
+			}
+			
+		}
+		
+		return c;
+	}
+	
+	
+	/*
+	 * Read all
+	 */
+	public List<Cliente> listaTodos() {
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	private static void close(Connection myConn, Statement myStmt, ResultSet myRs) {
+		List<Cliente> clientes = null;
+		
 		try {
-			if (myRs != null) {
-				myRs.close();
-			}
-			
-			if (myStmt != null) {
-				myStmt.close();
-			}
-			
-			if (myConn != null) {
-				myConn.close();
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao fechar recursos.", e);
-		}		
-	}
-
-
-	@Override
-	public Cliente getByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<Cliente> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
+			clientes = em.createQuery("from Cliente d").getResultList();
+		} catch (Exception e) {
+			System.err.println("Erro RESULT LIST clientes: " +e);
+		} finally {
+			em.close();
+		}
 		
+		
+		return clientes;
 	}
-
-
-	@Override
-	public void update(Cliente t) {
-		// TODO Auto-generated method stub
+	
+	
+	/*
+	 * Update
+	 */
+	public void atualiza(Cliente c) {
+		
+		try {
+			em.getTransaction().begin();
+			if (c.getId() > 0){
+				em.merge(c);
+				em.getTransaction().commit();
+			} else {
+				// Se o id informado não existir:
+				System.out.println("\n\n\nID não existe");
+			}
+		} catch (Exception e) {
+			System.err.println("Erro UPDATE cliente: " +e);
+			em.getTransaction().rollback();
+		} finally {
+			//em.close();
+		}
 		
 	}
 	
+	
+	/*
+	 * Delete
+	 */
+	public void remove(int id){		
+		Cliente c = null;
+				
+		try {
+			c = em.find(Cliente.class, id);
+		
+			if (c != null && c.isLocacao() == false) {
+				em.getTransaction().begin();
+				em.remove(c);
+				em.getTransaction().commit();				
+			} else {
+				System.err.println("\n\tFalha ao remover cliente, nulo ou possui locação");
+			}
+			
+		} catch (Exception e) {
+			System.err.println("Erro na remocao de cliente: " +e);
+			em.getTransaction().rollback();
+			
+		} finally {
+			em.close();
+		}
+		
+	}
+
+	
+	
+	
+	/*
+	 * Deletar para envio
+	 */
+	/*
+	public List<Cliente> pesquisaPorNome(String nomeMarca) {
+		Query q = em.createNamedQuery("Marca.pesquisaPorNome");
+		q.setParameter("nomeMarca", "%" + nomeMarca + "%");
+		return q.getResultList();
+	}
+	
+	public List<Cliente> listaTodosSimplificado(){
+		Query q = em.createQuery(" select  new Marca(m.id, m.nome) "
+				       + " from Marca m ");
+		return q.getResultList();
+	}
+	*/
 }

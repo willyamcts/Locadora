@@ -1,11 +1,17 @@
-package br.org.catolicasc.dao;
+package dao;
 
 import java.util.List;
 
 public interface Dao<T> {
-	T getByKey(int id);
-	List<T> getAll();
-	void insert(T t);
-	void delete(int id);
-	void update(T t);
+
+	
+	public void salva(T t);
+
+	public void remove(T t);
+
+	public List<T> listaTodos();
+
+	public T buscaPorld(Long id);
+	
+	public List<T> listaPaginada(int ini, int max);
 }
