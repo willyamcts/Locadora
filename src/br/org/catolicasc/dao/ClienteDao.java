@@ -13,21 +13,9 @@ public class ClienteDao {
 	 * Create
 	 */
 	public String salva(Cliente c) {
-		String status = null;
 		
-		try {
-			em.getTransaction().begin();
-			em.persist(c);
-			em.getTransaction().commit();
-			status = "\n\t Inserido cliente com sucesso!!!";
-			
-		} catch (Exception e) {
-			System.err.println("Erro: " +e);;
-		} finally {
-			em.close();
-		}
+		//Implement
 		
-		return status;
 	}
 	
 	
@@ -35,21 +23,8 @@ public class ClienteDao {
 	 * Read by Id
 	 */
 	public Cliente pesquisa(int id) {
-		Cliente c = new Cliente();
 		
-		if ( id > 0 ){
-			
-			try { 
-				c = em.find(Cliente.class, id);
-			} catch (Exception e){
-				System.err.println("Erro READ cliente: " +e);
-			} finally {
-				//em.close();
-			}
-			
-		}
-		
-		return c;
+		//Implement
 	}
 	
 	
@@ -57,19 +32,8 @@ public class ClienteDao {
 	 * Read all
 	 */
 	public List<Cliente> listaTodos() {
-
-		List<Cliente> clientes = null;
 		
-		try {
-			clientes = em.createQuery("from Cliente d").getResultList();
-		} catch (Exception e) {
-			System.err.println("Erro RESULT LIST clientes: " +e);
-		} finally {
-			em.close();
-		}
-		
-		
-		return clientes;
+		//Implement
 	}
 	
 	
@@ -78,21 +42,7 @@ public class ClienteDao {
 	 */
 	public void atualiza(Cliente c) {
 		
-		try {
-			em.getTransaction().begin();
-			if (c.getId() > 0){
-				em.merge(c);
-				em.getTransaction().commit();
-			} else {
-				// Se o id informado não existir:
-				System.out.println("\n\n\nID não existe");
-			}
-		} catch (Exception e) {
-			System.err.println("Erro UPDATE cliente: " +e);
-			em.getTransaction().rollback();
-		} finally {
-			//em.close();
-		}
+		//Implement
 		
 	}
 	
@@ -100,27 +50,9 @@ public class ClienteDao {
 	/*
 	 * Delete
 	 */
-	public void remove(int id){		
-		Cliente c = null;
-				
-		try {
-			c = em.find(Cliente.class, id);
+	public void remove(int id){
 		
-			if (c != null && c.isLocacao() == false) {
-				em.getTransaction().begin();
-				em.remove(c);
-				em.getTransaction().commit();				
-			} else {
-				System.err.println("\n\tFalha ao remover cliente, nulo ou possui locação");
-			}
-			
-		} catch (Exception e) {
-			System.err.println("Erro na remocao de cliente: " +e);
-			em.getTransaction().rollback();
-			
-		} finally {
-			em.close();
-		}
+		//Implement
 		
 	}
 
