@@ -1,13 +1,9 @@
 package dao;
 
 import java.util.List;
-import javax.persistence.EntityManager;
-import jpa.ConnectionFactory;
 import model.Cliente;
 
 public class ClienteDao {
-	
-	private EntityManager em = new ConnectionFactory().getEntityManager();
 	
 	/*
 	 * Create

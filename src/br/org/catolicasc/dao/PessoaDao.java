@@ -5,57 +5,58 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import jpa.ConnectionFactory;
-import model.Dvd;
+import model.Pessoa;
 
-public class DvdDao {
-	
+public class PessoaDao {
 	
 	/*
 	 * Create
 	 */
-	public String salva(Dvd dvd) {
+	public String salva(Pessoa p) {
 		
 		//Implement
-		
 	}
-		
+	
 	
 	/*
 	 * Read by Id
 	 */
-	public Dvd pesquisa(int id) {
+	public Pessoa pesquisa(int id) {
+		Pessoa c = new Pessoa();
 		
 		//Implement
+		
+		return c;
 	}
 	
-		
+	
 	/*
 	 * Read all
 	 */
-	public List<Dvd> listaTodos() {
+	public List<Pessoa> listaTodos() {
+		List<Pessoa> Pessoas = null;
 		
 		//Implement
 		
+		return Pessoas;
 	}
 	
 	
 	/*
 	 * Update
 	 */
-	public void atualiza(Dvd dvd) {
+	public void atualiza(Pessoa p) {
 		
 		//Implement
-		
 	}
 	
-		
+	
 	/*
 	 * Delete
 	 */
-	public void remove(int id) {
+	public void remove(int id){
 		
 		//Implement
-		
 	}
 	
 }

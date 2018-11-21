@@ -7,8 +7,6 @@ import jpa.ConnectionFactory;
 import model.Locacao;
 
 public class LocacaoDao {
-
-	private EntityManager em = new ConnectionFactory().getEntityManager();
 	
 	/*
 	 * Create
