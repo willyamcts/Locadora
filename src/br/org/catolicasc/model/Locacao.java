@@ -1,36 +1,17 @@
-package model;
+package br.org.catolicasc.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-@Entity
 public class Locacao {
 
-	@Id
-	@GeneratedValue
 	private int id;
-	@Transient
-	@Temporal(TemporalType.DATE)
 	private Date aluguel = new Date();
-	@Temporal(TemporalType.DATE)
 	private Date devolucao = new Date();
 	
 	// Um dvd tem muitas locacoes;
-	@ManyToOne
-	@JoinColumn(name="dvd_id")
 	private Dvd dvd;
 
 	// Um cliente tem muitas locações;
-	@ManyToOne
-	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
 	
@@ -84,5 +65,5 @@ public class Locacao {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+
 }

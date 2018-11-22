@@ -1,19 +1,13 @@
-package model;
+package br.org.catolicasc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import java.util.Collection;
 
-@Entity
-public class Cliente {	
-	
-	@Id
-	@GeneratedValue
+public class Cliente extends Pessoa {
+
 	private int id;
 	private boolean locacao;
 	
-	@OneToOne
+	// Um cliente é uma pessoa
 	private Pessoa pessoa;
 	
 
@@ -52,11 +46,9 @@ public class Cliente {
 	public Dvd getFilmeLocado() {
 		return (Dvd) filmeLocado;
 	}
-
 	public void setFilmeLocado(Dvd filmeLocado) {
 		this.filmeLocado = (List<Dvd>) filmeLocado;
 	}
 	*/
-	
 
 }

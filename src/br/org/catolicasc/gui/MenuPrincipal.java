@@ -2,8 +2,7 @@ package br.org.catolicasc.gui;
 
 import javax.swing.JFrame;
 import br.org.catolicasc.dao.ClienteDao;
-
-import br.org.catolicasc.dao.Cliente;
+import br.org.catolicasc.model.Cliente;
 import br.org.catolicasc.dao.ClienteDao;
 
 import java.util.Scanner;
@@ -59,7 +58,7 @@ public class MenuPrincipal extends JFrame {
 		entrada.nextLine();
 
 		
-		Cliente novoCliente = new Cliente(0, nome, cpf, endereco, telefone, false);
+		Cliente novoCliente = new Cliente(
 	
 	// Verificar as chamadas do pacote Banco e implementar a inserção no sqlite;
 		//RE: Só recebe um cliente e passas para o método insert;

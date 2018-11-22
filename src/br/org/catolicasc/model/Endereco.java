@@ -1,10 +1,6 @@
-package model;
+package br.org.catolicasc.model;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class Endereco {
-	
 	private String cidade;
 	private String bairro;
 	private String logradouro;
@@ -51,5 +47,4 @@ public class Endereco {
 	public void setNumeroResidencia(int numeroResidencia) {
 		this.numeroResidencia = numeroResidencia;
 	}
-	
 }

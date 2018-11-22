@@ -1,32 +1,16 @@
-package model;
+package br.org.catolicasc.model;
 
 import java.util.Collection;
-//import java.sql.Date;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-@Entity
 public class Filme {
-	
-	@Id
-	@GeneratedValue
+
 	private int id;
 	private String titulo;
 	private String genero;
-	@Temporal(TemporalType.DATE)
-	private Date dataLancamento;
 	private long duracao;
-	
-	@OneToMany(
-		mappedBy="filme",
-		cascade = CascadeType.ALL)
+	private Date dataLancamento;
+
 	private Collection<Dvd> dvds;
 	
 	
@@ -91,5 +75,5 @@ public class Filme {
 	public void setDuracao(long duracao) {
 		this.duracao = duracao;
 	}
-	
+
 }

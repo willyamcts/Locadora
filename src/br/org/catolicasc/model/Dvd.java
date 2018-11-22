@@ -1,22 +1,13 @@
-package model;
+package br.org.catolicasc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-@Entity
 public class Dvd {
-	
-	@Id
-	@GeneratedValue
+
 	private int id;
 	private int cod;
 	private boolean locacao = false;
-	
-	@ManyToOne
-	@JoinColumn(name = "filme_id")
+
+	//Muitos dvds podem ter um mesmo filme, ou 
+	//	um filme tem muitos dvds = @ManyToOne
 	private Filme filme;
 	
 	
@@ -59,5 +50,4 @@ public class Dvd {
 	public void setLocacao(boolean locacao) {
 		this.locacao = locacao;
 	}
-	
 }

@@ -1,62 +1,109 @@
-package dao;
+package br.org.catolicasc.dao;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import javax.persistence.EntityManager;
-
-import jpa.ConnectionFactory;
-import model.Pessoa;
+import br.org.catolicasc.model.Cliente;
 
 public class PessoaDao {
+
 	
-	/*
-	 * Create
-	 */
-	public String salva(Pessoa p) {
-		
-		//Implement
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	private static final String GET_BY_ID = "SELECT * FROM cliente WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM cliente";
+	private static final String INSERT = "INSERT INTO cliente (nome, cpf, endereco, telefone, locador) "
+			+ "VALUES (?, ?, ?, ?, ?)";
+	private static final String UPDATE = "UPDATE cliente SET nome = ?, cpf = ?, endereco = ?, "
+			+ "telefone = ?, locador = ? WHERE id = ?";
+	private static final String DELETE = "DELETE FROM cliente WHERE id = ?";
+
+	
+//Construtor da classe, ja cria a tabela no db;
+	public ClienteDao() {
+		try {
+			createTable();
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao criar tabela no banco.", e);
+		}
 	}
 	
 	
-	/*
-	 * Read by Id
-	 */
-	public Pessoa pesquisa(int id) {
-		Pessoa c = new Pessoa();
-		
-		//Implement
-		
-		return c;
+//Metodo que cria a tabela 	
+	private void createTable() throws SQLException {
+	    String sqlTable = "CREATE TABLE IF NOT EXISTS cliente"
+	            + "  (id           INTEGER,"
+	            + "   nome            VARCHAR(50),"
+	            + "   cpf			  BIGINT,"
+	            + "   endereco           VARCHAR(255),"
+	            + "   telefone           BIGINT,"
+	            + "   locador       INTEGER,"
+	            + "   PRIMARY KEY (id))";
+	    
+	    Connection conn = DbConnection.getConnection();
+
+
+	    Statement stmt = conn.createStatement();
+	    stmt.execute(sqlTable);
+	    
+	    close(conn, stmt, null);
 	}
 	
 	
-	/*
-	 * Read all
-	 */
-	public List<Pessoa> listaTodos() {
-		List<Pessoa> Pessoas = null;
+//Metodos que insere clientes no banco
+	@Override
+	public void insert(Cliente cliente) {
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		
-		//Implement
+		int getLocador = 0; //false
 		
-		return Pessoas;
+		if (cliente.isLocador()) {
+			getLocador = 1;
+		}
+		
+		try {
+			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, cliente.getNome());
+			stmt.setLong(2, cliente.getCpf());
+			stmt.setString(3, cliente.getEndereco());
+			stmt.setLong(4, cliente.getTelefone());
+			stmt.setInt(5, getLocador);
+			
+			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				cliente.setId(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao inserir cliente.", e);
+		}finally {
+			close(conn, stmt, rs);
+		}
+
 	}
+
 	
 	
-	/*
-	 * Update
-	 */
-	public void atualiza(Pessoa p) {
-		
-		//Implement
-	}
 	
 	
-	/*
-	 * Delete
-	 */
-	public void remove(int id){
-		
-		//Implement
-	}
 	
 }

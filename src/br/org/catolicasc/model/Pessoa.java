@@ -1,31 +1,14 @@
-package model;
+package br.org.catolicasc.model;
 
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-@Entity
 public class Pessoa {
-
-	@Id
-	@GeneratedValue
 	private int id;
 	private String nome;
 	private String cpf;
 	private int idade;
-	
-	@Embedded
 	private Endereco endereco;
-	
-	@OneToMany(
-	mappedBy="pessoa",
-	cascade = CascadeType.ALL)
-	//@JoinColumn(name = "pessoa_id")
+
 	private Collection<Telefone> telefones;
 	
 
@@ -87,5 +70,5 @@ public class Pessoa {
 	public void setTelefones(Collection<Telefone> telefones) {
 		this.telefones = telefones;
 	}
-	
+
 }

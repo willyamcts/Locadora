@@ -1,22 +1,21 @@
-package dao;
+package br.org.catolicasc.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
-import javax.persistence.EntityManager;
+import br.org.catolicasc.model.Filme;
 
-import jpa.ConnectionFactory;
-import model.Filme;
+public class FilmeDao {
 
-public class FilmeDao extends DaoBase {
-	
 	
 	/*
 	 * Create
 	 */
 	public String salva(Filme filme) {
+		String status = null;
 		
 		//Implement
+		
+		return status;
 	}
 		
 	
@@ -83,4 +82,5 @@ public class FilmeDao extends DaoBase {
 	}
 	
 	*/
+
 }

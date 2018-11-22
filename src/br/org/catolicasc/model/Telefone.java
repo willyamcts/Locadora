@@ -1,23 +1,11 @@
-package model;
+package br.org.catolicasc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-@Entity
 public class Telefone {
-	
-	@Id
-	@GeneratedValue
+
 	private int Id;
 	private int codArea;
 	private String numero;
 	
-	@ManyToOne
-	//@JoinColumn(name="id_pessoa", nullable=false)
-	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 	
 	
@@ -60,5 +48,4 @@ public class Telefone {
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}		
-		
 }
