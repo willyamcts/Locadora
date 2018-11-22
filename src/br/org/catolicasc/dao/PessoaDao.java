@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 import br.org.catolicasc.model.Cliente;
 
-public class PessoaDao {
+public class PessoaDao implements Dao<Cliente> {
 
 	
 	
@@ -36,7 +36,7 @@ public class PessoaDao {
 
 	
 //Construtor da classe, ja cria a tabela no db;
-	public ClienteDao() {
+	public PessoaDao() {
 		try {
 			createTable();
 		} catch (SQLException e) {

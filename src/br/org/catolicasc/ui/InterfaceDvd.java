@@ -1,12 +1,12 @@
-package ui;
+package br.org.catolicasc.ui;
 
 import java.util.Date;
 import java.util.List;
 
-import dao.DvdDao;
-import dao.FilmeDao;
-import model.Dvd;
-import model.Filme;
+import br.org.catolicasc.dao.DvdDao;
+import br.org.catolicasc.dao.FilmeDao;
+import br.org.catolicasc.model.Dvd;
+import br.org.catolicasc.model.Filme;
 
 public class InterfaceDvd extends InterfaceModelo {
 	
@@ -40,7 +40,7 @@ public class InterfaceDvd extends InterfaceModelo {
 		String titulo = "Homem de ferro";
 		String genero = "Ação";
 		String dataEntrada = "11/10/2010";
-		Date lancamento = new InterfacePrincipal().formataData(dataEntrada);
+		Date lancamento = formataData(dataEntrada);
 		long duracao = 123;
 		
 		

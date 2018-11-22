@@ -1,15 +1,15 @@
-package ui;
+package br.org.catolicasc.ui;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.ClienteDao;
-import dao.PessoaDao;
-import dao.TelefoneDao;
-import model.Cliente;
-import model.Endereco;
-import model.Pessoa;
-import model.Telefone;
+import br.org.catolicasc.dao.ClienteDao;
+import br.org.catolicasc.dao.PessoaDao;
+import br.org.catolicasc.dao.TelefoneDao;
+import br.org.catolicasc.model.Cliente;
+import br.org.catolicasc.model.Endereco;
+import br.org.catolicasc.model.Pessoa;
+import br.org.catolicasc.model.Telefone;
 
 
 public class InterfaceCliente extends InterfaceModelo {	
