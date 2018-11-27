@@ -76,14 +76,9 @@ public class ClienteDao implements Dao<Cliente> {
 		}
 
 	}
-
 	
 	
 	
-	
-	
-
-
 	@Override
 	public Cliente getByKey(int id) {
 		Connection conn = DbConnection.getConnection();
@@ -119,7 +114,21 @@ public class ClienteDao implements Dao<Cliente> {
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		Connection conn = DbConnection.getConnection();
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(DELETE);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, null);
+		}
 		
 	}
 
@@ -140,7 +149,7 @@ public class ClienteDao implements Dao<Cliente> {
 		cliente.setId( rs.getInt("id") );
 		cliente.setPessoa( new Pessoa());
 		//cliente.setPessoa( new Pessoa(rs.getInt("pessoa_id"), rs.getString("nome"), rs.getString("cpf"),
-		//		rs.getInt("idade"), rs.getString("endereco"), rs.getInt("telefone_id")) );
+		//		rs.getInt("idade"), rs.XXXXXX("endereco"), rs.getInt("telefone_id")) );
 		cliente.setLocacao(rs.getBoolean("locador"));
 	
 		return cliente;

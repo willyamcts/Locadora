@@ -4,7 +4,7 @@ public class Dvd {
 
 	private int id;
 	private int cod;
-	private boolean locacao = false;
+	private boolean locado = false;
 
 	//Muitos dvds podem ter um mesmo filme, ou 
 	//	um filme tem muitos dvds = @ManyToOne
@@ -15,7 +15,7 @@ public class Dvd {
 	
 	public Dvd(Filme filme, int cod, boolean locacao) {
 		this.cod = cod;
-		this.locacao = locacao;
+		this.locado = locacao;
 	}	
 	
 	
@@ -45,9 +45,9 @@ public class Dvd {
 	
 
 	public boolean isLocacao() {
-		return locacao;
+		return locado;
 	}
 	public void setLocacao(boolean locacao) {
-		this.locacao = locacao;
+		this.locado = locacao;
 	}
 }

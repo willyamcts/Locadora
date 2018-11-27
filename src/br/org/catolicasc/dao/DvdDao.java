@@ -8,14 +8,15 @@ import java.sql.Statement;
 import java.util.List;
 
 import br.org.catolicasc.model.Dvd;
+import br.org.catolicasc.model.Filme;
 
 public class DvdDao implements Dao<Dvd> {
 	
 	private static final String GET_BY_ID = "SELECT * FROM dvd NATURAL JOIN filme WHERE id = ?";
 	private static final String GET_ALL = "SELECT * FROM dvd NATURAL JOIN filme";
-	private static final String INSERT = "INSERT INTO dvd (cod, locacao, filme_id) "
+	private static final String INSERT = "INSERT INTO dvd (codigo, locado, filme_id) "
 			+ "VALUES (?, ?, ?)";
-	private static final String UPDATE = "UPDATE dvd SET cod = ?, locacao = ?, "
+	private static final String UPDATE = "UPDATE dvd SET codigo = ?, locado = ?, "
 			+ "filme_id = ?";
 	private static final String DELETE = "DELETE FROM dvd WHERE id = ?";
 
@@ -34,8 +35,8 @@ public class DvdDao implements Dao<Dvd> {
 	private void createTable() throws SQLException {
 	    String sqlTable = "CREATE TABLE IF NOT EXISTS dvd"
 	            + "  (id           		INTEGER,"
-	            + "   cod				INTEGER,"
-	            + "   locacao			NUMERIC,"
+	            + "   codigo			INTEGER,"
+	            + "   locado			NUMERIC,"
 	            + "   filme_id			INTEGER,"
 	            + "   FOREIGN KEY (filme_id) REFERENCES filme(id),"
 	            + "   PRIMARY KEY (id))";
@@ -85,12 +86,24 @@ public class DvdDao implements Dao<Dvd> {
 	 */
 	@Override
 	public Dvd getByKey(int id) {
-		Dvd d = new Dvd();
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		
-		if ( id > 0 ){
-
-			// Implement
+		Dvd d = null;
+		
+		try {
+			stmt = conn.prepareStatement(GET_BY_ID);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
 			
+			if (rs.next()) {
+				d = getContaFromRS(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, rs);
 		}
 		
 		return d;
@@ -128,10 +141,38 @@ public class DvdDao implements Dao<Dvd> {
 	 */
 	@Override
 	public void delete(int id) {
-		Dvd dvd = null;
-
-		//Implement
+		Connection conn = DbConnection.getConnection();
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(DELETE);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, null);
+		}
 		
 	}
+	
+	
+	
+	
+	private Dvd getContaFromRS(ResultSet rs) throws SQLException
+    {
+		Dvd dvd = new Dvd();
+			
+		dvd.setId( rs.getInt("id") );
+		dvd.setCod(rs.getInt("codigo"));
+		dvd.setLocacao(rs.getBoolean("locado"));
+		dvd.setFilme( new Filme(rs.getInt("filme_id"), rs.getString("titulo"), rs.getString("titulo"),
+				rs.getLong("duracao"), rs.getDate("data_lancamento")) );
+	
+		return dvd;
+    }
 	
 }

@@ -45,7 +45,7 @@ public class InterfaceDvd extends InterfaceModelo {
 		long duracao = 123;
 		
 		
-		Filme filme = new Filme();//(titulo, genero, lancamento, duracao);
+		Filme filme = new Filme();
 		Dvd dvd = new Dvd();
 		
 		filme.setTitulo(titulo);

@@ -120,13 +120,25 @@ public class LocacaoDao implements Dao<Locacao> {
 	
 	
 	/*
-	 * Delete
+	 * Delete - Not used
 	 */
 	@Override
 	public void delete(int id) {
-		Locacao l = null;
-
-		//implement
+		Connection conn = DbConnection.getConnection();
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(DELETE);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, null);
+		}
 		
 	}
 

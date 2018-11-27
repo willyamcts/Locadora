@@ -1,6 +1,5 @@
 package br.org.catolicasc.model;
 
-import java.util.Collection;
 
 public class Pessoa {
 	private int id;
@@ -13,7 +12,7 @@ public class Pessoa {
 
 	public Pessoa() {}
 	
-	 public Pessoa(String nome, String cpf, int idade, Telefone fone, Endereco end) {
+	 public Pessoa(int id, String nome, String cpf, int idade, Telefone fone, Endereco end) {
 		 this.nome = nome;
 		 this.idade = idade;
 		 this.cpf = cpf;
@@ -55,11 +54,11 @@ public class Pessoa {
 	}
 	
 	
-	public String getEndereco() {
-		Endereco end = new Endereco();
-		String endereco = null;
-		endereco = end.getLogradouro()+ ", " +end.getNumeroResidencia()+ " - " 
-		+end.getBairro()+ ", "+end.getCidade();
+	public Endereco getEndereco() {
+		//Endereco end = new Endereco();
+		//String endereco = null;
+		//endereco = end.getLogradouro()+ ", " +end.getNumeroResidencia()+ " - " 
+		//+end.getBairro()+ ", "+end.getCidade();
 		
 		return endereco;
 	}

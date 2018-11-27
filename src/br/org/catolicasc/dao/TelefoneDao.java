@@ -129,11 +129,25 @@ public class TelefoneDao implements Dao<Telefone> {
 	
 	
 	/*
-	 * Delete
+	 * Delete - // Not used
 	 */
 	@Override
 	public void delete(int id) {
-		//Non Implement
+		Connection conn = DbConnection.getConnection();
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(DELETE);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, null);
+		}
 	}
 
 	

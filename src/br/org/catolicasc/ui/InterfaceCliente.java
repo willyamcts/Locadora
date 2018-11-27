@@ -1,6 +1,5 @@
 package br.org.catolicasc.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.org.catolicasc.dao.ClienteDao;
@@ -77,7 +76,14 @@ public class InterfaceCliente extends InterfaceModelo {
 		Pessoa pessoa = new Pessoa();
 		Cliente c = new Cliente();
 		Telefone fone = new Telefone();
-		Endereco end = new Endereco(cidade, bairro, logradouro, nCasa);	
+		Endereco end = new Endereco();
+		
+		
+		end.setCidade(cidade);
+		end.setBairro(bairro);
+		end.setLogradouro(logradouro);
+		end.setNumeroResidencia(nCasa);
+		
 		
 		
 		/*
@@ -100,8 +106,8 @@ public class InterfaceCliente extends InterfaceModelo {
 		pessoa.setCpf(cpf);
 		pessoa.setEndereco(end);
 		pessoa.setTelefone(fone);
+		
 		pessoaDao.insert(pessoa);
-		pessoaDao.getAll();
 		
 		/*
 		fone.setCodArea(obtemDD(fone1));
@@ -115,7 +121,8 @@ public class InterfaceCliente extends InterfaceModelo {
 		
 		c.setPessoa(pessoa);
 		c.setLocacao(false);
-		pulaLinhas();
+		//pulaLinhas();
+		
 		clienteDao.insert(c);
 	}
 	

@@ -1,7 +1,6 @@
 package br.org.catolicasc.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -136,12 +135,25 @@ public class FilmeDao implements Dao<Filme> {
 	
 		
 	/*
-	 * Delete
+	 * Delete - Not used
 	 */
 	@Override
 	public void delete(int id) {
+		Connection conn = DbConnection.getConnection();
 		
-		//Implement - Non
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(DELETE);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, null);
+		}
 		
 	}
 

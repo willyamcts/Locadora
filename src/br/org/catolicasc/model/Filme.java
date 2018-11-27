@@ -18,12 +18,12 @@ public class Filme {
 	public Filme() {}
 	
 
-	public Filme(String titulo, String genero, Date dataLancamento, long duracao) {
+	public Filme(int id, String titulo, String genero, long duracao, Date dataLancamento) {
 		super();
 		this.titulo = titulo;
 		this.genero = genero;
-		this.dataLancamento = dataLancamento;
 		this.duracao = duracao;
+		this.dataLancamento = dataLancamento;
 	}	
 	
 	
