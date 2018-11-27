@@ -67,6 +67,7 @@ public abstract class InterfaceModelo {
 		*/
 		
 		String dateS = java.text.DateFormat.getDateInstance(DateFormat.MEDIUM).format(date);
+		//java.sql.Date dateSQL = new java.sql.Date(formataData(dateS));
 		return formataData(dateS);
 	}
 	

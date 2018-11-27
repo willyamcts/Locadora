@@ -8,17 +8,16 @@ public class Pessoa {
 	private String cpf;
 	private int idade;
 	private Endereco endereco;
-
-	private Collection<Telefone> telefones;
+	private Telefone telefone;
 	
 
 	public Pessoa() {}
 	
-	 public Pessoa(String nome, String cpf, int idade, Collection<Telefone> fones, Endereco end) {
+	 public Pessoa(String nome, String cpf, int idade, Telefone fone, Endereco end) {
 		 this.nome = nome;
 		 this.idade = idade;
 		 this.cpf = cpf;
-		 this.telefones = (Collection<Telefone>) fones;
+		 this.telefone = fone;
 		 this.endereco = end;
 	};
 	
@@ -56,7 +55,12 @@ public class Pessoa {
 	}
 	
 	
-	public Endereco getEndereco() {
+	public String getEndereco() {
+		Endereco end = new Endereco();
+		String endereco = null;
+		endereco = end.getLogradouro()+ ", " +end.getNumeroResidencia()+ " - " 
+		+end.getBairro()+ ", "+end.getCidade();
+		
 		return endereco;
 	}
 	public void setEndereco(Endereco endereco) {
@@ -64,11 +68,12 @@ public class Pessoa {
 	}
 
 	
-	public Collection<Telefone> getTelefones() {
-		return telefones;
-	}
-	public void setTelefones(Collection<Telefone> telefones) {
-		this.telefones = telefones;
+	public Telefone getTelefone() {
+		return telefone;
 	}
 
+	public void setTelefone(Telefone telefone) {
+		this.telefone = telefone;
+	}
+	
 }

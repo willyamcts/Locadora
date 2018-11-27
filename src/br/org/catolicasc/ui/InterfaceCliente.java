@@ -65,8 +65,6 @@ public class InterfaceCliente extends InterfaceModelo {
 		String cpf = "111.222.333-45";
 		
 		String fone1 = "41 90000-0000";
-		String fone2 = "42 91111-1111";
-		String fone3 = "43 99999-9999";
 		
 		String cidade = "Mafra";
 		String bairro = "Vila Nova";
@@ -88,52 +86,37 @@ public class InterfaceCliente extends InterfaceModelo {
 		 * 
 		 */
 
+		
+
+		fone.setCodArea(obtemDD(fone1));
+		fone.setNumero(obtemNumero(fone1));
+		//fone.setPessoa(pessoa);
+		
+		telefoneDao.insert(fone);
+		
 		//pessoa = new Pessoa(nome, cpf, idade, telefones, end);
 		pessoa.setNome(nome);
 		pessoa.setIdade(idade);
 		pessoa.setCpf(cpf);
 		pessoa.setEndereco(end);
-		System.out.println(pessoaDao.salva(pessoa));
+		pessoa.setTelefone(fone);
+		pessoaDao.insert(pessoa);
+		pessoaDao.getAll();
 		
-		List<Telefone> telefones = new ArrayList<Telefone>();
-		
-		if (fone1 != null){
-			fone.setCodArea(obtemDD(fone1));
-			fone.setNumero(obtemNumero(fone1));
-			fone.setPessoa(pessoa);
+		/*
+		fone.setCodArea(obtemDD(fone1));
+		fone.setNumero(obtemNumero(fone1));
+		fone.setPessoa(pessoa);
 			
-			telefoneDao.salva(fone);
-			telefones.add(fone);
-		}
+		telefoneDao.insert(fone);
+		*/
 		
-		if (fone2 != null){
-			fone = new Telefone();;
-			fone.setCodArea(obtemDD(fone2));
-			fone.setNumero(obtemNumero(fone2));
-			fone.setPessoa(pessoa);
-
-			telefoneDao.salva(fone);
-			telefones.add(fone);
-		}
-		
-		if (fone3 != null){
-			fone = new Telefone();;
-			fone.setCodArea(obtemDD(fone3));
-			fone.setNumero(obtemNumero(fone3));
-			fone.setPessoa(pessoa);
-
-			telefoneDao.salva(fone);
-			telefones.add(fone);
-		}		
-		
-		pessoa.setTelefones(telefones);
-		
-
-		
+		//pessoa.setTelefone(fone);
 		
 		c.setPessoa(pessoa);
+		c.setLocacao(false);
 		pulaLinhas();
-		System.out.println(clienteDao.salva(c));
+		clienteDao.insert(c);
 	}
 	
 	
@@ -158,37 +141,29 @@ public class InterfaceCliente extends InterfaceModelo {
 				+ "Insira o Id do cliente a ser removido: ");
 		int cliente_id = entrada.nextInt();
 		
-		clienteDao.remove(cliente_id);
+		clienteDao.delete(cliente_id);
 	}	
 	
 	
 
 	protected void listaTodosCliente() {
-		List<Cliente> clientes = clienteDao.listaTodos();
-		List<Telefone> telefones = telefoneDao.listaTodos();
-		String[] fones = new String[3];
+		List<Cliente> clientes = clienteDao.getAll();
+		Telefone telefone = new Pessoa().getTelefone();
+		//String[] fones = new String[3];
 
 		pulaLinhas();		
 		System.out.println("\t LISTA DE CLIENTES: ");
 		System.out.println("Id\t Nome\t\t CPF \t\t"
-				+ "     Idade\t Fone\t\t\t"
+				+ "     Idade\t Fone\t"
 				+ "\t\t\t Aluguel\t\t Endereço\n");		
 				
 
-		for ( Cliente c: clientes ) {			
-
-			for (int i=0; i < 3; i++ ) {
-				if ( c.getPessoa().getTelefones() != null ) {
-					fones[i] = "(" +telefones.get(i).getCodArea()+ ")" +telefones.get(i).getNumero();
-				}			
-			}
-			
-			System.out.println(c.getId()+ "\t " +c.getPessoa().getNome()+ "\t " +c.getPessoa().getCpf()+ "\t      " +c.getPessoa().getIdade()+ 
-					"\t" +fones[0]+ "," +fones[1]+ "," +fones[2]+ "\t " +c.isLocacao()+"\t\t " 
-					+c.getPessoa().getEndereco().getLogradouro()+ ", " +c.getPessoa().getEndereco().getNumeroResidencia()+ " - " 
-					+c.getPessoa().getEndereco().getBairro()+ ", " +c.getPessoa().getEndereco().getCidade());
+		for (Cliente c: clientes) {
+			System.out.println(c.getId()+ "\t " +c.getPessoa().getNome()+ "\t " 
+					+c.getPessoa().getCpf()+ "\t      " +c.getPessoa().getIdade()+ 
+					"\t" +telefone+ "\t " +c.isLocacao()+"\t\t " 
+					+c.getPessoa().getEndereco());
 		}
-		
 	}	
 	
 }

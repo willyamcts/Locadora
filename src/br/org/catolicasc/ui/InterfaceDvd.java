@@ -41,11 +41,17 @@ public class InterfaceDvd extends InterfaceModelo {
 		String genero = "Ação";
 		String dataEntrada = "11/10/2010";
 		Date lancamento = formataData(dataEntrada);
+		//java.sql.Date lancamento = new java.sql.Date(formataData(dataEntrada));
 		long duracao = 123;
 		
 		
-		Filme filme = new Filme(titulo, genero, lancamento, duracao);
+		Filme filme = new Filme();//(titulo, genero, lancamento, duracao);
 		Dvd dvd = new Dvd();
+		
+		filme.setTitulo(titulo);
+		filme.setGenero(genero);
+		filme.setDataLancamento(lancamento);
+		filme.setDuracao(duracao);
 		
 		/*
 		filmeDao.pesquisaByName(titulo);
@@ -53,14 +59,14 @@ public class InterfaceDvd extends InterfaceModelo {
 		System.exit(0);
 		*/
 		
-		filmeDao.salva(filme);
+		filmeDao.insert(filme);
 		
 		dvd.setFilme(filme);
 		dvd.setCod(geraRandom());
 		dvd.setLocacao(false);
 				
 		pulaLinhas();
-		System.out.println(dvdDao.salva(dvd));
+		dvdDao.insert(dvd);
 	}	
 	
 
@@ -73,7 +79,7 @@ public class InterfaceDvd extends InterfaceModelo {
 		entrada.nextLine();
 		
 		
-		dvdDao.remove(id);
+		dvdDao.delete(id);
 				
 		/*
 		 * 
@@ -107,7 +113,7 @@ public class InterfaceDvd extends InterfaceModelo {
 	
 	protected void listaTodosDvd() {
 		
-		List<Dvd> dvd = dvdDao.listaTodos();
+		List<Dvd> dvd = dvdDao.getAll();
 		
 		pulaLinhas();		
 		System.out.println("\t LISTA DE DVDs: ");

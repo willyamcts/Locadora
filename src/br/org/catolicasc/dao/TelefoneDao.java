@@ -1,35 +1,94 @@
 package br.org.catolicasc.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import br.org.catolicasc.model.Telefone;
 
-public class TelefoneDao {
+public class TelefoneDao implements Dao<Telefone> {
+	
+	private static final String GET_BY_ID = "SELECT * FROM telefone WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM telefone";
+	private static final String INSERT = "INSERT INTO telefone (codArea, numero) "
+			+ "VALUES (?, ?)";
+	private static final String UPDATE = "UPDATE telefone SET codArea = ?, numero = ? WHERE id = ?";
+	private static final String DELETE = "DELETE FROM telefone WHERE id = ?";
+
+	
+//Construtor da classe, ja cria a tabela no db;
+	public TelefoneDao() {
+		try {
+			createTable();
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao criar tabela pessoa no banco.", e);
+		}
+	}
+	
+	
+//Metodo que cria a tabela 	
+	private void createTable() throws SQLException {
+	    String sqlTable = "CREATE TABLE IF NOT EXISTS telefone"
+	            + "  (id           		INTEGER,"
+	            + "   codArea			INTEGER,"
+	            + "   numero			VARCHAR(14),"
+	            //+ "   pessoa_id			INTEGER,"
+	            //+ "   FOREIGN KEY (pessoa_id) REFERENCES pessoa(id),"
+	            + "   PRIMARY KEY (id))";
+	    
+	    Connection conn = DbConnection.getConnection();
+
+
+	    Statement stmt = conn.createStatement();
+	    stmt.execute(sqlTable);
+	    
+	    DbConnection.closeConnection(conn, stmt, null);
+	}
 	
 	
 	/*
 	 * Create
 	 */
-	public String salva(Telefone Telefone) {
-		String status = null;
+	@Override
+	public void insert(Telefone telefone) {
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, telefone.getCodArea());
+			stmt.setString(2, telefone.getNumero());
+			
+			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				telefone.setId(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao inserir telefone.", e);
+		}finally {
+		    DbConnection.closeConnection(conn, stmt, null);
+		}
 
-		// Implement
 		
 		/*
 		} finally {
 			//Non implement, close in other method
 		}
 		*/
-		
-		
-		return status;
 	}
 	
 	
 	/*
 	 * Read by Id
 	 */
-	public Telefone pesquisa(int id) {
+	@Override
+	public Telefone getByKey(int id) {
 		Telefone d = new Telefone();
 
 		//Implement
@@ -48,8 +107,8 @@ public class TelefoneDao {
 	/*
 	 * Read all
 	 */
-	public List<Telefone> listaTodos() {
-
+	@Override
+	public List<Telefone> getAll() {
 		List<Telefone> Telefones = null;
 		
 
@@ -63,21 +122,20 @@ public class TelefoneDao {
 	/*
 	 * Update
 	 */
-	public void atualiza(Telefone Telefone) {
-		
+	@Override
+	public void update(Telefone t) {
 		//Non Implement
-		
 	}
 	
 	
 	/*
 	 * Delete
 	 */
-	public void remove(int id) {
-		Telefone Telefone = null;
-
-		// Non implement
-		
-		
+	@Override
+	public void delete(int id) {
+		//Non Implement
 	}
+
+	
+	
 }

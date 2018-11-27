@@ -9,15 +9,15 @@ import java.util.List;
 
 import br.org.catolicasc.dao.DbConnection;
 import br.org.catolicasc.model.Cliente;
+import br.org.catolicasc.model.Pessoa;
 
-public class ClienteDao implements Dao<Cliente> {	
+public class ClienteDao implements Dao<Cliente> {
 	
-	private static final String GET_BY_ID = "SELECT * FROM cliente WHERE id = ?";
-	private static final String GET_ALL = "SELECT * FROM cliente";
-	private static final String INSERT = "INSERT INTO cliente (nome, cpf, endereco, telefone, locador) "
-			+ "VALUES (?, ?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE cliente SET nome = ?, cpf = ?, endereco = ?, "
-			+ "telefone = ?, locador = ? WHERE id = ?";
+	private static final String GET_BY_ID = "SELECT * FROM cliente NATURAL JOIN pessoa WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM cliente NATURAL JOIN pessoa";
+	private static final String INSERT = "INSERT INTO cliente (pessoa_id, locador) "
+			+ "VALUES (?, ?)";
+	private static final String UPDATE = "UPDATE cliente SET pessoa_id = ?, locador = ?";
 	private static final String DELETE = "DELETE FROM cliente WHERE id = ?";
 
 	
@@ -26,7 +26,7 @@ public class ClienteDao implements Dao<Cliente> {
 		try {
 			createTable();
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao criar tabela no banco.", e);
+			throw new RuntimeException("Erro ao criar tabela cliente no banco.", e);
 		}
 	}
 	
@@ -34,12 +34,9 @@ public class ClienteDao implements Dao<Cliente> {
 //Metodo que cria a tabela 	
 	private void createTable() throws SQLException {
 	    String sqlTable = "CREATE TABLE IF NOT EXISTS cliente"
-	            + "  (id           INTEGER,"
-	            + "   nome            VARCHAR(50),"
-	            + "   cpf			  BIGINT,"
-	            + "   endereco           VARCHAR(255),"
-	            + "   telefone           BIGINT,"
-	            + "   locador       INTEGER,"
+	            + "  (id           		INTEGER,"
+	            + "   pessoa_id       	INTEGER,"
+	            + "   locador       	INTEGER,"
 	            + "   PRIMARY KEY (id))";
 	    
 	    Connection conn = DbConnection.getConnection();
@@ -48,7 +45,7 @@ public class ClienteDao implements Dao<Cliente> {
 	    Statement stmt = conn.createStatement();
 	    stmt.execute(sqlTable);
 	    
-	    close(conn, stmt, null);
+	    DbConnection.closeConnection(conn, stmt, null);
 	}
 	
 	
@@ -59,19 +56,12 @@ public class ClienteDao implements Dao<Cliente> {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		int getLocador = 0; //false
-		
-		if (cliente.isLocador()) {
-			getLocador = 1;
-		}
+		//boolean locador = false; //false
 		
 		try {
 			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, cliente.getNome());
-			stmt.setLong(2, cliente.getCpf());
-			stmt.setString(3, cliente.getEndereco());
-			stmt.setLong(4, cliente.getTelefone());
-			stmt.setInt(5, getLocador);
+			stmt.setInt(1, cliente.getPessoa().getId());
+			stmt.setBoolean(2, cliente.isLocacao());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -82,7 +72,7 @@ public class ClienteDao implements Dao<Cliente> {
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro ao inserir cliente.", e);
 		}finally {
-			close(conn, stmt, rs);
+		    DbConnection.closeConnection(conn, stmt, null);
 		}
 
 	}
@@ -92,39 +82,31 @@ public class ClienteDao implements Dao<Cliente> {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	private static void close(Connection myConn, Statement myStmt, ResultSet myRs) {
-		try {
-			if (myRs != null) {
-				myRs.close();
-			}
-			
-			if (myStmt != null) {
-				myStmt.close();
-			}
-			
-			if (myConn != null) {
-				myConn.close();
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao fechar recursos.", e);
-		}		
-	}
 
 
 	@Override
 	public Cliente getByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		Cliente c = null;
+		
+		try {
+			stmt = conn.prepareStatement(GET_BY_ID);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				c = getContaFromRS(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, rs);
+		}
+		
+		return c;
 	}
 
 
@@ -147,5 +129,22 @@ public class ClienteDao implements Dao<Cliente> {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
+	private Cliente getContaFromRS(ResultSet rs) throws SQLException
+    {
+		Cliente cliente = new Cliente();
+			
+		cliente.setId( rs.getInt("id") );
+		cliente.setPessoa( new Pessoa());
+		//cliente.setPessoa( new Pessoa(rs.getInt("pessoa_id"), rs.getString("nome"), rs.getString("cpf"),
+		//		rs.getInt("idade"), rs.getString("endereco"), rs.getInt("telefone_id")) );
+		cliente.setLocacao(rs.getBoolean("locador"));
+	
+		return cliente;
+    }
+	
 	
 }

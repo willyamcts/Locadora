@@ -103,12 +103,12 @@ public class InterfaceTelasRem {
 	 */
 	
 	//Listagem de clientes deve mostrar:
-	System.out.println("Nome	CPF		Idade		Fone	Aluguel		Endereço");		
+	//System.out.println("Nome	CPF		Idade		Fone	Aluguel		Endereço");		
 	
 	//Listagem de Dvds deve mostrar:
-	System.out.println("Id	Titulo		Gênero		Data de lançamento		Duração		Cod. Dvd");
+	//System.out.println("Id	Titulo		Gênero		Data de lançamento		Duração		Cod. Dvd");
 
 	//Listagem de Locações deve mostrar:
-	System.out.println("Id		Cliente	(Id)	Titulo filme	Cod. Dvd");
+	//System.out.println("Id		Cliente	(Id)	Titulo filme	Cod. Dvd");
 	
 }
