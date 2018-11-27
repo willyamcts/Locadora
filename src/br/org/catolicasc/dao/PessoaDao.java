@@ -12,12 +12,12 @@ import br.org.catolicasc.model.Pessoa;
 
 public class PessoaDao implements Dao<Pessoa> {
 	
-	private static final String GET_BY_ID = "SELECT * FROM pessoa NATURAL JOIN telefone WHERE id = ?";
-	private static final String GET_ALL = "SELECT * FROM pessoa NATURAL JOIN telefone";
-	private static final String INSERT = "INSERT INTO pessoa (nome, cpf, idade, endereco, telefone_id) "
+	private static final String GET_BY_ID = "SELECT * FROM pessoa NATURAL JOIN telefone NATURAL JOIN endereco WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM pessoa NATURAL JOIN telefone NATURAL JOIN endereco";
+	private static final String INSERT = "INSERT INTO pessoa (nome, cpf, idade, endereco_id, telefone_id) "
 			+ "VALUES (?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE pessoa SET nome = ?, cpf = ?, idade = ?, "
-			+ "endereco = ?, telefones_id = ? WHERE id = ?";
+			+ "endereco_id = ?, telefones_id = ? WHERE id = ?";
 	private static final String DELETE = "DELETE FROM pessoa WHERE id = ?";
 
 	
@@ -38,8 +38,9 @@ public class PessoaDao implements Dao<Pessoa> {
 	            + "   nome				VARCHAR(50),"
 	            + "   cpf				VARCHAR(14),"
 	            + "   idade        		INTEGER,"
-	            + "   endereco          VARCHAR(250),"
+	            + "   endereco_id		INTEGER,"
 	            + "   telefone_id		INTEGER,"
+	            + "   FOREIGN KEY (endereco_id) REFERENCES endereco(id),"
 	            + "   FOREIGN KEY (telefone_id) REFERENCES telefone(id),"
 	            + "   PRIMARY KEY (id))";
 	    
@@ -65,7 +66,7 @@ public class PessoaDao implements Dao<Pessoa> {
 			stmt.setString(1, pessoa.getNome());
 			stmt.setString(2, pessoa.getCpf());
 			stmt.setInt(3, pessoa.getIdade());
-			stmt.setString(4, pessoa.getEndereco());
+			stmt.setInt(4, pessoa.getEndereco().getId());
 			stmt.setInt(5, pessoa.getTelefone().getId());
 			
 			stmt.executeUpdate();

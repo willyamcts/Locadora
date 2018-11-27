@@ -1,6 +1,5 @@
 package br.org.catolicasc.model;
 
-import java.util.Collection;
 
 public class Cliente extends Pessoa {
 

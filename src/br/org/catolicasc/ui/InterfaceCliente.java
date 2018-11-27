@@ -3,6 +3,7 @@ package br.org.catolicasc.ui;
 import java.util.List;
 
 import br.org.catolicasc.dao.ClienteDao;
+import br.org.catolicasc.dao.EnderecoDao;
 import br.org.catolicasc.dao.PessoaDao;
 import br.org.catolicasc.dao.TelefoneDao;
 import br.org.catolicasc.model.Cliente;
@@ -15,7 +16,8 @@ public class InterfaceCliente extends InterfaceModelo {
 
 	private ClienteDao clienteDao = new ClienteDao();
 	private TelefoneDao telefoneDao = new TelefoneDao();
-	PessoaDao pessoaDao = new PessoaDao();
+	private PessoaDao pessoaDao = new PessoaDao();
+	private EnderecoDao enderecoDao = new EnderecoDao();
 		
 		
 	protected void insereCliente(){		
@@ -72,26 +74,18 @@ public class InterfaceCliente extends InterfaceModelo {
 		
 		
 		
-		
 		Pessoa pessoa = new Pessoa();
 		Cliente c = new Cliente();
 		Telefone fone = new Telefone();
-		Endereco end = new Endereco();
+		Endereco endereco = new Endereco();
 		
 		
-		end.setCidade(cidade);
-		end.setBairro(bairro);
-		end.setLogradouro(logradouro);
-		end.setNumeroResidencia(nCasa);
+		endereco.setCidade(cidade);
+		endereco.setBairro(bairro);
+		endereco.setLogradouro(logradouro);
+		endereco.setNumeroResidencia(nCasa);
 		
-		
-		
-		/*
-		 * 
-		 * NECESSARIO PASSAR ID DE PESSOA PARA TELEFONE
-		 * 
-		 */
-
+		enderecoDao.insert(endereco);
 		
 
 		fone.setCodArea(obtemDD(fone1));
@@ -100,11 +94,11 @@ public class InterfaceCliente extends InterfaceModelo {
 		
 		telefoneDao.insert(fone);
 		
-		//pessoa = new Pessoa(nome, cpf, idade, telefones, end);
+
 		pessoa.setNome(nome);
 		pessoa.setIdade(idade);
 		pessoa.setCpf(cpf);
-		pessoa.setEndereco(end);
+		pessoa.setEndereco(endereco);
 		pessoa.setTelefone(fone);
 		
 		pessoaDao.insert(pessoa);
@@ -121,8 +115,7 @@ public class InterfaceCliente extends InterfaceModelo {
 		
 		c.setPessoa(pessoa);
 		c.setLocacao(false);
-		//pulaLinhas();
-		
+
 		clienteDao.insert(c);
 	}
 	

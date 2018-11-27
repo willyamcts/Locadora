@@ -98,7 +98,7 @@ public class DvdDao implements Dao<Dvd> {
 			rs = stmt.executeQuery();
 			
 			if (rs.next()) {
-				d = getContaFromRS(rs);
+				d = getDvdRS(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -162,15 +162,14 @@ public class DvdDao implements Dao<Dvd> {
 	
 	
 	
-	private Dvd getContaFromRS(ResultSet rs) throws SQLException
-    {
+	private Dvd getDvdRS(ResultSet rs) throws SQLException {
 		Dvd dvd = new Dvd();
 			
 		dvd.setId( rs.getInt("id") );
 		dvd.setCod(rs.getInt("codigo"));
 		dvd.setLocacao(rs.getBoolean("locado"));
 		dvd.setFilme( new Filme(rs.getInt("filme_id"), rs.getString("titulo"), rs.getString("titulo"),
-				rs.getLong("duracao"), rs.getDate("data_lancamento")) );
+				rs.getLong("duracao"), rs.XXXXXXXX("data_lancamento")) );
 	
 		return dvd;
     }

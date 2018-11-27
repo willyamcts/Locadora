@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import br.org.catolicasc.model.Cliente;
+import br.org.catolicasc.model.Dvd;
+import br.org.catolicasc.model.Filme;
 import br.org.catolicasc.model.Locacao;
 
 public class LocacaoDao implements Dao<Locacao> {
@@ -49,12 +52,10 @@ public class LocacaoDao implements Dao<Locacao> {
 	    stmt.execute(sqlTable);
 	    
 	    DbConnection.closeConnection(conn, stmt, null);
-	}
-
+	}	
 	
 	
 	
-
 	/*
 	 * Create
 	 */
@@ -89,9 +90,25 @@ public class LocacaoDao implements Dao<Locacao> {
 	 */
 	@Override
 	public Locacao getByKey(int id) {
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
 		Locacao l = null;
-
-		//implement, non close
+		
+		try {
+			stmt = conn.prepareStatement(GET_BY_ID);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				l = getLocacaoRS(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, rs);
+		}
 		
 		return l;
 	}
@@ -142,6 +159,20 @@ public class LocacaoDao implements Dao<Locacao> {
 		
 	}
 
+	
+	// https://stackoverflow.com/questions/24736427/how-to-get-date-from-a-resultset
+	private Locacao getLocacaoRS(ResultSet rs) throws SQLException {
+		Locacao l = new Locacao();
+			
+		l.setId( rs.getInt("id") );
+		l.setAluguel(rs.);
+		l.setCod(rs.getDate("codigo"));
+		l.setLocacao(rs.getBoolean("locado"));
+		l.setFilme( new Filme(rs.getInt("filme_id"), rs.getString("titulo"), rs.getString("titulo"),
+				rs.getLong("duracao"), rs.XXXXXXXX("data_lancamento")) );
+	
+		return l;
+    }
 
 
 }
