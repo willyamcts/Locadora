@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.org.catolicasc.model.Filme;
@@ -64,7 +66,7 @@ public class FilmeDao implements Dao<Filme> {
 			stmt.setString(1, filme.getTitulo());
 			stmt.setString(2, filme.getGenero());
 			stmt.setLong(3, filme.getDuracao());
-			stmt.setDate(4, new java.sql.Date(filme.getDataLancamento().getTime()));
+			stmt.setDate(4, new java.sql.Date(filme.getDataLancamento().getTimeInMillis()));
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -79,16 +81,45 @@ public class FilmeDao implements Dao<Filme> {
 		}
 	}
 		
-	
+	private Filme getFilmeRS(ResultSet rs) throws SQLException {
+		Filme filme = new Filme();
+		
+		filme.setId( rs.getInt("id") );
+		filme.setTitulo(rs.getString("titulo"));
+		filme.setGenero(rs.getString("genero"));
+		filme.setDuracao( rs.getInt("duracao") );
+		
+		Calendar data = Calendar.getInstance();
+		data.setTime(rs.getDate("dataLancamento"));
+		filme.setDataLancamento(data);
+			
+		return filme;
+ 
+	}
 	/*
 	 * Read by Id
 	 */
 	@Override
-	public Filme getByKey(int id) {
+	public Filme getByKey(int id) {	
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
 		Filme f = new Filme();
 		
-		
-		//Implement
+		try {
+			stmt = conn.prepareStatement(GET_BY_ID);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				f = getFilmeRS(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, rs);
+		}
 		
 		return f;
 	}
@@ -113,12 +144,29 @@ public class FilmeDao implements Dao<Filme> {
 	 */
 	@Override
 	public List<Filme> getAll() {
-		List<Filme> filmes = null;		
+			
+		Connection conn = DbConnection.getConnection();
 		
+		List<Filme> filmes = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rs = null;
 		
-		//Implement		
+		try {
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(GET_ALL);
+			
+			while (rs.next()) {
+				filmes.add(getFilmeRS(rs));
+			}			
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao obter todos os dvd's.", e);
+		} finally {
+			DbConnection.closeConnection(conn, stmt, null);
+		}
 		
-		
+	
 		return filmes;
 	}
 
@@ -156,5 +204,5 @@ public class FilmeDao implements Dao<Filme> {
 		}
 		
 	}
-
+	
 }
