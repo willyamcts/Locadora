@@ -1,5 +1,6 @@
 package br.org.catolicasc.ui;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import br.org.catolicasc.dao.ClienteDao;
@@ -32,7 +33,7 @@ public class InterfaceLocacao extends InterfaceModelo {
 		int clienteId = entrada.nextInt();
 		entrada.nextLine();
 		
-				
+		
 		Date alugado = dataAtual();
 		Date devolucao = addDiasAData(6);
 		
@@ -45,9 +46,17 @@ public class InterfaceLocacao extends InterfaceModelo {
 		dvd.setLocacao(true);
 		dvdDao.update(dvd);
 
+		// Convert Date to Calendar
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(alugado);
 		
-		l.setAluguel(alugado);
-		l.setDevolucao(devolucao);
+		l.setAluguel(cal);
+
+		// Convert Date to Calendar
+		cal = null;
+		cal.setTime(devolucao);
+		
+		l.setDevolucao(cal);
 		l.setDvd(dvd);
 		l.setCliente(cliente);				
 		locacaoDao.insert(l);

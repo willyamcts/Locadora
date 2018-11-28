@@ -7,8 +7,7 @@ public class Endereco {
 	private String bairro;
 	private String logradouro;
 	private int numeroResidencia;
-	
-	private Pessoa pessoa = new Pessoa();
+
 	
 	public Endereco(){}
 	
@@ -58,15 +57,6 @@ public class Endereco {
 	}
 	public void setNumeroResidencia(int numeroResidencia) {
 		this.numeroResidencia = numeroResidencia;
-	}
-
-	
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
 	}
 	
 }

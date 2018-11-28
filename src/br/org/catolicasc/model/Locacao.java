@@ -1,12 +1,12 @@
 package br.org.catolicasc.model;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Locacao {
 
 	private int id;
-	private Date aluguel = new Date();
-	private Date devolucao = new Date();
+	private Calendar aluguel;
+	private Calendar devolucao;
 	
 	// Um dvd tem muitas locacoes;
 	private Dvd dvd;
@@ -18,7 +18,7 @@ public class Locacao {
 	
 	public Locacao() {}
 	
-	public Locacao(Date dataAluguel, Date dataDevolucao, Dvd dvd, Cliente cliente) {
+	public Locacao(Calendar dataAluguel, Calendar dataDevolucao, Dvd dvd, Cliente cliente) {
 		this.aluguel = dataAluguel;
 		this.devolucao = dataDevolucao;
 		this.cliente = cliente;
@@ -35,18 +35,18 @@ public class Locacao {
 	}
 	
 	
-	public Date getAluguel() {
+	public Calendar getAluguel() {
 		return aluguel;
 	}
-	public void setAluguel(Date aluguel) {
+	public void setAluguel(Calendar aluguel) {
 		this.aluguel = aluguel;
 	}
 	
 	
-	public Date getDevolucao() {
+	public Calendar getDevolucao() {
 		return devolucao;
 	}
-	public void setDevolucao(Date devolucao) {		
+	public void setDevolucao(Calendar devolucao) {		
 		this.devolucao = devolucao;
 	}
 

@@ -11,12 +11,12 @@ public class Dvd {
 	private Filme filme;
 	
 	
-	public Dvd() {}
-	
-	public Dvd(Filme filme, int cod, boolean locacao) {
+	public Dvd() {}	
+
+	public Dvd(int id, int cod, boolean locacao, Filme filme) {
 		this.cod = cod;
 		this.locado = locacao;
-	}	
+	}
 	
 	
 	

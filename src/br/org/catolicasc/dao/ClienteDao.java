@@ -148,8 +148,8 @@ public class ClienteDao implements Dao<Cliente> {
 			
 		cliente.setId( rs.getInt("id") );
 		cliente.setPessoa( new Pessoa());
-		//cliente.setPessoa( new Pessoa(rs.getInt("pessoa_id"), rs.getString("nome"), rs.getString("cpf"),
-		//		rs.getInt("idade"), rs.XXXXXX("endereco"), rs.getInt("telefone_id")) );
+		cliente.setPessoa( new Pessoa(rs.getInt("pessoa_id"), rs.getString("nome"), rs.getString("cpf"),
+				rs.getInt("idade"), rs.XXXXXX("endereco"), rs.getInt("telefone_id")) );
 		cliente.setLocacao(rs.getBoolean("locador"));
 	
 		return cliente;

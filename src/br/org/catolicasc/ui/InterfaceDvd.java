@@ -1,5 +1,6 @@
 package br.org.catolicasc.ui;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +51,12 @@ public class InterfaceDvd extends InterfaceModelo {
 		
 		filme.setTitulo(titulo);
 		filme.setGenero(genero);
-		filme.setDataLancamento(lancamento);
+		
+		// Convert Date to Calendar
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(lancamento);
+		
+		filme.setDataLancamento(cal);
 		filme.setDuracao(duracao);
 		
 		/*
