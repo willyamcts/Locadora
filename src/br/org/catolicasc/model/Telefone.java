@@ -10,6 +10,11 @@ public class Telefone {
 	
 	
 	public Telefone() {}
+
+	public Telefone(int id, int cod, String numero) {
+		this.codArea = cod;
+		this.numero = numero;
+	}
 	
 	public Telefone(int cod, String numero) {
 		this.codArea = cod;

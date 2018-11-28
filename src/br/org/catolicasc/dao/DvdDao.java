@@ -148,8 +148,23 @@ public class DvdDao implements Dao<Dvd> {
 	 */
 	@Override
 	public void update(Dvd dvd) {
-
-		// Implement
+		Connection conn = DbConnection.getConnection();
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(UPDATE);
+			stmt.setInt(1, dvd.getCod());
+			stmt.setBoolean(2, dvd.isLocacao());
+			stmt.setInt(3, dvd.getFilme().getId());
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, null);
+		}
 		
 	}
 	
@@ -189,8 +204,8 @@ public class DvdDao implements Dao<Dvd> {
 		
 		
 		Filme f = new Filme();
-		Calendar data = Calendar.getInstance();
 		
+		//Calendar data = Calendar.getInstance();		
 		//data.setTime(rs.getDate("data_lancamento"));
 		
 		f.setId(rs.getInt("filme_id"));

@@ -41,6 +41,7 @@ public class InterfaceLocacao extends InterfaceModelo {
 		
 		
 		cliente = clienteDao.getByKey(clienteId);
+		//cliente.setPessoa(cliente.getPessoa());
 		cliente.setLocacao(true);
 		clienteDao.update(cliente);
 		
@@ -63,7 +64,7 @@ public class InterfaceLocacao extends InterfaceModelo {
 		l.setDevolucao(cal);
 		*/
 		
-		l.setDevolucao(alugado);
+		l.setAluguel(alugado);
 		l.setDevolucao(devolucao);
 		
 		

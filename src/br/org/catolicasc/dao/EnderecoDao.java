@@ -11,7 +11,6 @@ import br.org.catolicasc.model.Endereco;
 import br.org.catolicasc.model.Filme;
 
 public class EnderecoDao implements Dao<Endereco> {
-
 	
 	private static final String GET_BY_ID = "SELECT * FROM endereco WHERE id = ?";
 	private static final String GET_ALL = "SELECT * FROM endereco";

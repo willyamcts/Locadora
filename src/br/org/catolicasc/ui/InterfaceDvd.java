@@ -59,7 +59,10 @@ public class InterfaceDvd extends InterfaceModelo {
 		
 		filme.setDataLancamento(cal);
 		*/
+		filme.setDataLancamento(dataEntrada);
+		
 		filme.setDuracao(duracao);
+		
 		
 		/*
 		filmeDao.pesquisaByName(titulo);
