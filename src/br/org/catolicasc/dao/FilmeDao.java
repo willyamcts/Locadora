@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import br.org.catolicasc.model.Filme;
@@ -39,7 +40,8 @@ public class FilmeDao implements Dao<Filme> {
 	            + "   titulo			VARCHAR(250),"
 	            + "   genero			VARCHAR(250),"
 	            + "   duracao			INTEGER,"
-	            + "   data_lancamento	TEXT,"
+	            //+ "   data_lancamento	DATETIME,"
+	            + "   data_lancamento	VARCHAR(20),"
 	            + "   PRIMARY KEY (id))";
 	    
 	    Connection conn = DbConnection.getConnection();
@@ -66,7 +68,8 @@ public class FilmeDao implements Dao<Filme> {
 			stmt.setString(1, filme.getTitulo());
 			stmt.setString(2, filme.getGenero());
 			stmt.setLong(3, filme.getDuracao());
-			stmt.setDate(4, new java.sql.Date(filme.getDataLancamento().getTimeInMillis()));
+			stmt.setString(4, filme.getDataLancamento());
+			//stmt.setDate(4, new java.sql.Date(filme.getDataLancamento().getTimeInMillis()));
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -80,22 +83,8 @@ public class FilmeDao implements Dao<Filme> {
 		    DbConnection.closeConnection(conn, stmt, null);
 		}
 	}
-		
-	private Filme getFilmeRS(ResultSet rs) throws SQLException {
-		Filme filme = new Filme();
-		
-		filme.setId( rs.getInt("id") );
-		filme.setTitulo(rs.getString("titulo"));
-		filme.setGenero(rs.getString("genero"));
-		filme.setDuracao( rs.getInt("duracao") );
-		
-		Calendar data = Calendar.getInstance();
-		data.setTime(rs.getDate("dataLancamento"));
-		filme.setDataLancamento(data);
-			
-		return filme;
- 
-	}
+	
+	
 	/*
 	 * Read by Id
 	 */
@@ -204,5 +193,89 @@ public class FilmeDao implements Dao<Filme> {
 		}
 		
 	}
+	
+	
+	private Filme getFilmeRS(ResultSet rs) throws SQLException {
+		Filme filme = new Filme();
+		
+		filme.setId( rs.getInt("id") );
+		filme.setTitulo(rs.getString("titulo"));
+		filme.setGenero(rs.getString("genero"));
+		filme.setDuracao( rs.getInt("duracao") );
+		
+		/*
+		Calendar data = Calendar.getInstance();
+		data.setTime(rs.getDate("data_lancamento"));
+		filme.setDataLancamento(data);
+		*/
+		filme.setDataLancamento(rs.getString("data_lancamento"));
+			
+		return filme;
+ 
+	}
+	
+	
+	/*
+	private Calendar julianDateToCalendar(Double jd, Calendar cal) {
+        if (jd == null) {
+            return null;
+        }
+
+        int yyyy, dd, mm, hh, mn, ss, ms , A;
+
+        double w = jd + 0.5;
+        int Z = (int)w;
+        double F = w - Z;
+
+        if (Z < 2299161) {
+            A = Z;
+        }
+        else {
+            int alpha = (int)((Z - 1867216.25) / 36524.25);
+            A = Z + 1 + alpha - (int)(alpha / 4.0);
+        }
+
+        int B = A + 1524;
+        int C = (int)((B - 122.1) / 365.25);
+        int D = (int)(365.25 * C);
+        int E = (int)((B - D) / 30.6001);
+
+        //  month
+        mm = E - ((E < 13.5) ? 1 : 13);
+
+        // year
+        yyyy = C - ((mm > 2.5) ? 4716 : 4715);
+
+        // Day
+        double jjd = B - D - (int)(30.6001 * E) + F;
+        dd = (int)jjd;
+
+        // Hour
+        double hhd = jjd - dd;
+        hh = (int)(24 * hhd);
+
+        // Minutes
+        double mnd = (24 * hhd) - hh;
+        mn = (int)(60 * mnd);
+
+        // Seconds
+        double ssd = (60 * mnd) - mn;
+        ss = (int)(60 * ssd);
+
+        // Milliseconds
+        double msd = (60 * ssd) - ss;
+        ms = (int)(1000 * msd);
+
+        cal.set(yyyy, mm-1, dd, hh, mn, ss);
+        cal.set(Calendar.MILLISECOND, ms);
+
+        if (yyyy<1) {
+            cal.set(Calendar.ERA, GregorianCalendar.BC);
+            cal.set(Calendar.YEAR, -(yyyy-1));
+        }
+
+        return cal;
+    }
+    */
 	
 }

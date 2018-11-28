@@ -78,15 +78,17 @@ public class InterfaceCliente extends InterfaceModelo {
 		Cliente c = new Cliente();
 		Telefone fone = new Telefone();
 		Endereco endereco = new Endereco();
+		 
 		
-		
+		/*
+		 * 
 		endereco.setCidade(cidade);
 		endereco.setBairro(bairro);
 		endereco.setLogradouro(logradouro);
 		endereco.setNumeroResidencia(nCasa);
 		
 		enderecoDao.insert(endereco);
-		
+		*/
 
 		fone.setCodArea(obtemDD(fone1));
 		fone.setNumero(obtemNumero(fone1));

@@ -41,8 +41,8 @@ public class InterfaceDvd extends InterfaceModelo {
 		String titulo = "Homem de ferro";
 		String genero = "Ação";
 		String dataEntrada = "11/10/2010";
-		Date lancamento = formataData(dataEntrada);
-		//java.sql.Date lancamento = new java.sql.Date(formataData(dataEntrada));
+		//Date lancamento = formataData(dataEntrada);
+							//java.sql.Date lancamento = new java.sql.Date(formataData(dataEntrada));
 		long duracao = 123;
 		
 		
@@ -52,11 +52,13 @@ public class InterfaceDvd extends InterfaceModelo {
 		filme.setTitulo(titulo);
 		filme.setGenero(genero);
 		
+		/*
 		// Convert Date to Calendar
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(lancamento);
 		
 		filme.setDataLancamento(cal);
+		*/
 		filme.setDuracao(duracao);
 		
 		/*
@@ -128,8 +130,9 @@ public class InterfaceDvd extends InterfaceModelo {
 		
 		for ( Dvd d: dvd ) {
 
-			System.out.println(d.getId()+ "\t " +d.getFilme().getTitulo()+ "\t " +d.getFilme().getGenero()+ "\t " 
-					+d.getFilme().getDataLancamento()+ "\t " +d.getFilme().getDuracao()+ "\t\t\t " +d.getCod());
+			System.out.println(d);
+			//System.out.println(d.getId()+ "\t " +d.getFilme().getTitulo()+ "\t " +d.getFilme().getGenero()+ "\t " 
+					//+d.getFilme().getDataLancamento()+ "\t " +d.getFilme().getDuracao()+ "\t\t\t " +d.getCod());
 		}
 		
 	}

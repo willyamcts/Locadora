@@ -34,8 +34,10 @@ public class InterfaceLocacao extends InterfaceModelo {
 		entrada.nextLine();
 		
 		
-		Date alugado = dataAtual();
-		Date devolucao = addDiasAData(6);
+		//Date alugado = dataAtual();
+		String alugado = dataAtual();
+		//Date devolucao = addDiasAData(6);
+		String devolucao = addDiasAData(6);
 		
 		
 		cliente = clienteDao.getByKey(clienteId);
@@ -46,6 +48,7 @@ public class InterfaceLocacao extends InterfaceModelo {
 		dvd.setLocacao(true);
 		dvdDao.update(dvd);
 
+		/*
 		// Convert Date to Calendar
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(alugado);
@@ -56,7 +59,14 @@ public class InterfaceLocacao extends InterfaceModelo {
 		cal = null;
 		cal.setTime(devolucao);
 		
+		
 		l.setDevolucao(cal);
+		*/
+		
+		l.setDevolucao(alugado);
+		l.setDevolucao(devolucao);
+		
+		
 		l.setDvd(dvd);
 		l.setCliente(cliente);				
 		locacaoDao.insert(l);

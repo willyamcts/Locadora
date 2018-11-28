@@ -10,14 +10,15 @@ public class Filme {
 	private String titulo;
 	private String genero;
 	private long duracao;
-	private Calendar dataLancamento;
+	private String dataLancamento;
 	
 	
 	
 	public Filme() {}
 	
-
-	public Filme(int id, String titulo, String genero, long duracao, Calendar dataLancamento) {
+	
+	//public Filme(int id, String titulo, String genero, long duracao, Calendar dataLancamento) {
+	public Filme(int id, String titulo, String genero, long duracao, String dataLancamento) {
 		super();
 		this.titulo = titulo;
 		this.genero = genero;
@@ -50,13 +51,14 @@ public class Filme {
 		this.genero = genero;
 	}
 
-
+	/*
 	public Calendar getDataLancamento() {
 		return dataLancamento;
 	}
 	public void setDataLancamento(Calendar dataLancamento) {
 		this.dataLancamento = dataLancamento;
 	}
+	*/
 
 
 	public long getDuracao() {
@@ -66,4 +68,14 @@ public class Filme {
 		this.duracao = duracao;
 	}
 
+
+	public String getDataLancamento() {
+		return dataLancamento;
+	}
+	public void setDataLancamento(String dataLancamento) {
+		this.dataLancamento = dataLancamento;
+	}
+
+	
+	
 }

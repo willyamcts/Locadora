@@ -5,8 +5,8 @@ import java.util.Calendar;
 public class Locacao {
 
 	private int id;
-	private Calendar aluguel;
-	private Calendar devolucao;
+	private String aluguel;
+	private String devolucao;
 	
 	// Um dvd tem muitas locacoes;
 	private Dvd dvd;
@@ -17,8 +17,9 @@ public class Locacao {
 	
 	
 	public Locacao() {}
-	
-	public Locacao(Calendar dataAluguel, Calendar dataDevolucao, Dvd dvd, Cliente cliente) {
+
+	//public Locacao(Calendar dataAluguel, Calendar dataDevolucao, Dvd dvd, Cliente cliente) {
+	public Locacao(String dataAluguel, String dataDevolucao, Dvd dvd, Cliente cliente) {
 		this.aluguel = dataAluguel;
 		this.devolucao = dataDevolucao;
 		this.cliente = cliente;
@@ -34,7 +35,7 @@ public class Locacao {
 		this.id = id;
 	}
 	
-	
+	/*
 	public Calendar getAluguel() {
 		return aluguel;
 	}
@@ -49,7 +50,15 @@ public class Locacao {
 	public void setDevolucao(Calendar devolucao) {		
 		this.devolucao = devolucao;
 	}
+	*/	
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 	
 	public void setDvd(Dvd dvd) {
 		this.dvd = dvd;
@@ -58,12 +67,22 @@ public class Locacao {
 		return dvd;
 	}
 	
-
-	public Cliente getCliente() {
-		return cliente;
+	
+	
+	
+	
+	public void setAluguel(String aluguel) {
+		this.aluguel = aluguel;
 	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public String getAluguel() {
+		return aluguel;
+	}
+	
+	public void setDevolucao(String devolucao) {
+		this.devolucao = devolucao;
+	}
+	public String getDevolucao() {
+		return devolucao;
 	}
 
 }

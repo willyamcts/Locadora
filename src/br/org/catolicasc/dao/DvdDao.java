@@ -1,10 +1,12 @@
 package br.org.catolicasc.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -116,11 +118,26 @@ public class DvdDao implements Dao<Dvd> {
 	 */
 	@Override
 	public List<Dvd> getAll() {
-
-		List<Dvd> dvds = null;
-
-		// Implement
+		List<Dvd> dvds = new ArrayList<>();
 		
+		Connection conn = DbConnection.getConnection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(GET_ALL);
+			
+			while (rs.next()) {
+				dvds.add(getDvdRS(rs));
+			}			
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao obter todos os dvds.", e);
+		} finally {
+			DbConnection.closeConnection(conn, stmt, rs);
+		}
 		
 		return dvds;
 	}
@@ -173,13 +190,15 @@ public class DvdDao implements Dao<Dvd> {
 		
 		Filme f = new Filme();
 		Calendar data = Calendar.getInstance();
-		data = null;
-		data.setTime(rs.getDate("data_devolucao"));
+		
+		//data.setTime(rs.getDate("data_lancamento"));
+		
 		f.setId(rs.getInt("filme_id"));
 		f.setTitulo(rs.getString("titulo"));
 		f.setGenero(rs.getString("genero"));
 		f.setDuracao(rs.getLong("duracao"));
-		f.setDataLancamento(data);
+		//f.setDataLancamento(data);
+		f.setDataLancamento(rs.getString("data_lancamento"));
 		
 		dvd.setFilme(f);
 	

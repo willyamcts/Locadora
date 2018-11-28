@@ -71,8 +71,10 @@ public class LocacaoDao implements Dao<Locacao> {
 	
 		try {
 			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-			stmt.setDate(1, new java.sql.Date(l.getAluguel().getTimeInMillis()) );
-			stmt.setDate(2, new java.sql.Date(l.getDevolucao().getTimeInMillis()) );
+			stmt.setString(1, l.getAluguel());
+			stmt.setString(2, l.getDevolucao());
+			//stmt.setDate(1, new java.sql.Date(l.getAluguel().getTimeInMillis()) );
+			//stmt.setDate(2, new java.sql.Date(l.getDevolucao().getTimeInMillis()) );
 			stmt.setInt(3, l.getDvd().getId());
 			stmt.setInt(4, l.getCliente().getId());
 			
@@ -187,25 +189,30 @@ public class LocacaoDao implements Dao<Locacao> {
 		Locacao l = new Locacao();
 			
 		l.setId( rs.getInt("id") );
+		l.setAluguel(rs.getString("data_locacao"));
+		l.setDevolucao(rs.getString("data_devolucao"));
 		
-		Calendar data = Calendar.getInstance();
+		/*
+		Calendar data = Calendar.getInstance();		
 		data.setTime(rs.getDate("data_locacao"));
 		l.setAluguel(data);
 		
 		data = null;
 		data.setTime(rs.getDate("data_devolucao"));
 		l.setDevolucao(data);
+		*/
 		
 		Filme f = new Filme();
-		data = null;
-		data.setTime(rs.getDate("data_devolucao"));
+		//data = null;
+		//data.setTime(rs.getDate("data_lancamento"));
 		f.setId(rs.getInt("filme_id"));
 		f.setTitulo(rs.getString("titulo"));
 		f.setGenero(rs.getString("genero"));
 		f.setDuracao(rs.getLong("duracao"));
-		f.setDataLancamento(data);
+		f.setDataLancamento(rs.getString("data_lancamento"));
+		//f.setDataLancamento(data);
 		
-		data = null;
+		//data = null;
 		Dvd dvdLocado = new Dvd(rs.getInt("dvd_id"), rs.getInt("codigo"), rs.getBoolean("locado"), f); 
 		l.setDvd( dvdLocado );
 	

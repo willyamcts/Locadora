@@ -54,7 +54,8 @@ public abstract class InterfaceModelo {
 	 * Retorna data de hoje em obj Date chamando 
 	 * metodo de formatacao da data;
 	 */
-	public Date dataAtual() {		
+	//public Date dataAtual() {
+	public String dataAtual() {		
 		Date date = new Date();
 
 		/*
@@ -68,7 +69,10 @@ public abstract class InterfaceModelo {
 		
 		String dateS = java.text.DateFormat.getDateInstance(DateFormat.MEDIUM).format(date);
 		//java.sql.Date dateSQL = new java.sql.Date(formataData(dateS));
-		return formataData(dateS);
+		
+		
+		//return formataData(dateS);
+		return dateS;
 	}
 	
 	
@@ -76,8 +80,10 @@ public abstract class InterfaceModelo {
 	 * Acrescenta 6 dias ao dia de hoje e retorna
 	 *  o objeto Date;
 	 */
-	public Date addDiasAData(int qtdDias) {
-		Date hoje = dataAtual();
+	//public Date addDiasAData(int qtdDias) {
+	public String addDiasAData(int qtdDias) {
+		//Date hoje = dataAtual();
+		Date hoje = formataData(dataAtual());
 		Date data = null;
 		
 		Calendar c = Calendar.getInstance();
@@ -85,8 +91,11 @@ public abstract class InterfaceModelo {
 		c.add(Calendar.DATE, +qtdDias);
 		
 		data = c.getTime();
+
+		String dateS = java.text.DateFormat.getDateInstance(DateFormat.MEDIUM).format(data);
 		
-		return data;
+		//return data;
+		return dateS;
 	}
 	
 	
