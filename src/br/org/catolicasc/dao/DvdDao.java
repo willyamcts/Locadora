@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Calendar;
+import java.util.List;
 
 import br.org.catolicasc.model.Dvd;
 import br.org.catolicasc.model.Filme;
@@ -32,7 +31,6 @@ public class DvdDao implements Dao<Dvd> {
 		}
 	}
 	
-	private Filme filme;
 	
 //Metodo que cria a tabela 	
 	private void createTable() throws SQLException {
@@ -52,6 +50,8 @@ public class DvdDao implements Dao<Dvd> {
 	    
 	    DbConnection.closeConnection(conn, stmt, null);
 	}
+
+
 
 	/*
 	 * Create
@@ -117,31 +117,14 @@ public class DvdDao implements Dao<Dvd> {
 	@Override
 	public List<Dvd> getAll() {
 
-		Connection conn = DbConnection.getConnection();
-		
-		List<Dvd> dvds = new ArrayList<>();
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		try {
-			stmt = conn.createStatement();
-			
-			rs = stmt.executeQuery(GET_ALL);
-			
-			while (rs.next()) {
-				dvds.add(getDvdRS(rs));
-			}			
-			
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao obter todos os dvd's.", e);
-		} finally {
-			close(conn, stmt, rs);
-		}
+		List<Dvd> dvds = null;
+
+		// Implement
 		
 		
 		return dvds;
 	}
-
+	
 	
 	/*
 	 * Update
@@ -149,22 +132,7 @@ public class DvdDao implements Dao<Dvd> {
 	@Override
 	public void update(Dvd dvd) {
 
-		Connection conn = DbConnection.getConnection();
-		PreparedStatement stmt = null;
-		
-		try {
-			stmt = conn.prepareStatement(UPDATE);
-			stmt.setInt(1, dvd.getCod());
-			stmt.setBoolean(2, dvd.isLocacao());
-			stmt.setInt(3, dvd.getFilme().getId());
-	
-			stmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao atualizar cliente.", e);
-		} finally {
-			close(conn, stmt, null);
-		}
+		// Implement
 		
 	}
 	
@@ -193,41 +161,29 @@ public class DvdDao implements Dao<Dvd> {
 	}
 	
 	
+	
+	
 	private Dvd getDvdRS(ResultSet rs) throws SQLException {
 		Dvd dvd = new Dvd();
-		
+			
 		dvd.setId( rs.getInt("id") );
 		dvd.setCod(rs.getInt("codigo"));
 		dvd.setLocacao(rs.getBoolean("locado"));
-		dvd.setFilme( new Filme(rs.getInt("filme_id"), rs.getString("titulo"), rs.getString("titulo"),
-				rs.getLong("duracao"), null));
-
+		
+		
+		Filme f = new Filme();
 		Calendar data = Calendar.getInstance();
-			data.setTime(rs.getDate("dataLancamento"));
-			filme.setDataLancamento(data);
-		 
+		data = null;
+		data.setTime(rs.getDate("data_devolucao"));
+		f.setId(rs.getInt("filme_id"));
+		f.setTitulo(rs.getString("titulo"));
+		f.setGenero(rs.getString("genero"));
+		f.setDuracao(rs.getLong("duracao"));
+		f.setDataLancamento(data);
+		
+		dvd.setFilme(f);
 	
 		return dvd;
- 
-	}
-	
-	private static void close(Connection myConn, Statement myStmt, ResultSet myRs) {
-		try {
-			if (myRs != null) {
-				myRs.close();
-			}
-			
-			if (myStmt != null) {
-				myStmt.close();
-			}
-			
-			if (myConn != null) {
-				myConn.close();
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao fechar recursos.", e);
-		}
-		
-	}
+    }
 	
 }

@@ -1,7 +1,8 @@
 package br.org.catolicasc.model;
 
-import java.util.Collection;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 
 public class Filme {
 
@@ -10,8 +11,6 @@ public class Filme {
 	private String genero;
 	private long duracao;
 	private Calendar dataLancamento;
-
-	private Collection<Dvd> dvds;
 	
 	
 	
@@ -24,17 +23,8 @@ public class Filme {
 		this.genero = genero;
 		this.duracao = duracao;
 		this.dataLancamento = dataLancamento;
-	}	
-	
-	
-		
-	public Collection<Dvd> getDvds() {
-		return dvds;
 	}
-
-	public void setDvds(Collection<Dvd> dvds) {
-		this.dvds = dvds;
-	}
+	
 	
 
 	public int getId() {
