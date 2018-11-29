@@ -86,20 +86,23 @@ public class InterfaceLocacao extends InterfaceModelo {
 		
 
 		//Alterar no cliente, locador para false; 
-		//cliente = clienteDao.getByKey(l.getCliente().getId());
+		int i  = l.getCliente().getId(); 
+		cliente = l.getCliente();
 		cliente.setLocacao(false);
 		//clienteDao.update(cliente);
 		
 		
 		// Altera dvd para disponível em estoque
 		//dvd = dvdDao.getByKey(l.getDvd().getId());
+		//dvd.setId(l.getDvd().getId());
+		dvd = l.getDvd();
 		dvd.setLocacao(false);
-		//dvdDao.update(dvd);
+		dvdDao.update(dvd);
 		
 		
 		//l.setCliente(cliente);
 		
-		locacaoDao.delete(locacaoId);
+		//locacaoDao.delete(locacaoId);
 		
 	}
 	

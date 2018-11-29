@@ -10,7 +10,11 @@ import java.util.ArrayList;
 
 import br.org.catolicasc.model.Cliente;
 import br.org.catolicasc.model.Dvd;
+import br.org.catolicasc.model.Endereco;
+import br.org.catolicasc.model.Filme;
 import br.org.catolicasc.model.Locacao;
+import br.org.catolicasc.model.Pessoa;
+import br.org.catolicasc.model.Telefone;
 
 public class LocacaoDao implements Dao<Locacao> {
 	
@@ -200,11 +204,12 @@ public class LocacaoDao implements Dao<Locacao> {
 		l.setDevolucao(data);
 		*/
 		
-		/*
+		
 		Filme f = new Filme();
 		//data = null;
 		//data.setTime(rs.getDate("data_lancamento"));
 		f.setId(rs.getInt("filme_id"));
+		/*
 		f.setTitulo(rs.getString("titulo"));
 		f.setGenero(rs.getString("genero"));
 		f.setDuracao(rs.getLong("duracao"));
@@ -212,10 +217,22 @@ public class LocacaoDao implements Dao<Locacao> {
 		//f.setDataLancamento(data);
 		*/
 		//data = null;
-		Dvd dvdLocado = new Dvd(rs.getInt("dvd_id"), rs.getInt("codigo"), rs.getBoolean("locado")); 
-		l.setDvd( dvdLocado );
 		
-		Cliente cliente = new Cliente( rs.getInt("cliente_id"), rs.getBoolean("locador") );		
+		
+		Dvd dvd = new Dvd();
+		//Dvd dvdLocado = new Dvd(rs.getInt("id"), rs.getInt("codigo"), rs.getBoolean("locado"), f);
+		//l.setDvd( dvdLocado );
+		
+		dvd.setId( rs.getInt("dvd_id") );
+		//dvd.setCod( rs.getInt("codigo") );
+		dvd.setFilme(f);
+		l.setDvd(dvd);
+		
+		Pessoa p = new Pessoa();
+		p.setId( rs.getInt("pessoa_id") );
+		
+		
+		Cliente cliente = new Cliente( rs.getInt("cliente_id"), rs.getBoolean("locador"), p );		
 		l.setCliente(cliente);
 	
 		return l;

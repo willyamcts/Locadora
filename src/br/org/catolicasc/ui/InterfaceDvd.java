@@ -104,14 +104,13 @@ public class InterfaceDvd extends InterfaceModelo {
 		
 		pulaLinhas();		
 		System.out.println("\t LISTA DE DVDs: ");
-		System.out.println("Id\t Titulo\t Gênero\t Data de lançamento\t Duração\t Cod. Dvd\n");
+		System.out.println("Id\t Titulo\t\t\t Gênero\t Data de lançamento\t Duração\t Cod. Dvd\n");
 		
 		
 		for ( Dvd d: dvd ) {
 
-			System.out.println(d);
-			//System.out.println(d.getId()+ "\t " +d.getFilme().getTitulo()+ "\t " +d.getFilme().getGenero()+ "\t " 
-					//+d.getFilme().getDataLancamento()+ "\t " +d.getFilme().getDuracao()+ "\t\t\t " +d.getCod());
+			System.out.println(d.getId()+ "\t " +d.getFilme().getTitulo()+ "\t\t " +d.getFilme().getGenero()+ "\t " 
+					+d.getFilme().getDataLancamento()+ "\t\t " +d.getFilme().getDuracao()+ "min\t\t\t " +d.getCod());
 		}
 		
 	}

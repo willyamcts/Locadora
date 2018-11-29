@@ -13,9 +13,9 @@ public class TelefoneDao implements Dao<Telefone> {
 	
 	private static final String GET_BY_ID = "SELECT * FROM telefone WHERE id = ?";
 	private static final String GET_ALL = "SELECT * FROM telefone";
-	private static final String INSERT = "INSERT INTO telefone (codArea, numero) "
+	private static final String INSERT = "INSERT INTO telefone (cod_area, numero) "
 			+ "VALUES (?, ?)";
-	private static final String UPDATE = "UPDATE telefone SET codArea = ?, numero = ? WHERE id = ?";
+	private static final String UPDATE = "UPDATE telefone SET cod_area = ?, numero = ? WHERE id = ?";
 	private static final String DELETE = "DELETE FROM telefone WHERE id = ?";
 
 	
@@ -33,7 +33,7 @@ public class TelefoneDao implements Dao<Telefone> {
 	private void createTable() throws SQLException {
 	    String sqlTable = "CREATE TABLE IF NOT EXISTS telefone"
 	            + "  (id           		INTEGER,"
-	            + "   codArea			INTEGER,"
+	            + "   cod_area			INTEGER,"
 	            + "   numero			VARCHAR(14),"
 	            //+ "   pessoa_id			INTEGER,"
 	            //+ "   FOREIGN KEY (pessoa_id) REFERENCES pessoa(id),"
@@ -74,7 +74,6 @@ public class TelefoneDao implements Dao<Telefone> {
 		}finally {
 		    DbConnection.closeConnection(conn, stmt, null);
 		}
-
 		
 		/*
 		} finally {
@@ -89,18 +88,28 @@ public class TelefoneDao implements Dao<Telefone> {
 	 */
 	@Override
 	public Telefone getByKey(int id) {
-		Telefone d = new Telefone();
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
-		//Implement
+		Telefone t = new Telefone();
 		
-		/*
-			} finally {
-				//em.close();
+		try {
+			stmt = conn.prepareStatement(GET_BY_ID);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				t = getTelefoneRS(rs);
 			}
-		*/	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, rs);
+		}
 		
-		
-		return d;
+		return t;
 	}
 	
 	
@@ -149,7 +158,18 @@ public class TelefoneDao implements Dao<Telefone> {
 			DbConnection.closeConnection(conn, stmt, null);
 		}
 	}
-
 	
+	
+	
+	private Telefone getTelefoneRS(ResultSet rs) throws SQLException {
+		Telefone t = new Telefone();
+
+		t.setId( rs.getInt("id") );
+		t.setCodArea( rs.getInt("cod_area") );
+		t.setNumero( rs.getString("numero") );
+		
+		
+		return t;
+	}
 	
 }

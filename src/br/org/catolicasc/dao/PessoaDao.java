@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import br.org.catolicasc.model.Cliente;
+import br.org.catolicasc.model.Endereco;
 import br.org.catolicasc.model.Pessoa;
+import br.org.catolicasc.model.Telefone;
 
 public class PessoaDao implements Dao<Pessoa> {
 	
@@ -76,7 +77,7 @@ public class PessoaDao implements Dao<Pessoa> {
 				pessoa.setId(rs.getInt(1));
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao inserir cliente.", e);
+			throw new RuntimeException("Erro ao inserir pessoa.", e);
 		}finally {
 		    DbConnection.closeConnection(conn, stmt, null);
 		}
@@ -86,8 +87,27 @@ public class PessoaDao implements Dao<Pessoa> {
 
 	@Override
 	public Pessoa getByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = DbConnection.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		Pessoa p = null;
+		
+		try {
+			stmt = conn.prepareStatement(GET_BY_ID);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				p = getPessoaRS(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbConnection.closeConnection(conn, stmt, rs);
+		}
+		
+		return p;
 	}
 
 
@@ -111,7 +131,37 @@ public class PessoaDao implements Dao<Pessoa> {
 		
 	}
 
+
+	private Pessoa getPessoaRS(ResultSet rs) throws SQLException {
+		EnderecoDao enderecoDao = new EnderecoDao();
+		TelefoneDao telefoneDao = new TelefoneDao();
+		Pessoa p = new Pessoa();
 	
-	
+		p.setId( rs.getInt("id") );
+		p.setNome( rs.getString("nome") );
+		p.setCpf( rs.getString("cpf") );
+		p.setIdade( rs.getInt("idade") );
+		
+		//Endereco endereco = enderecoDao.getByKey( rs.getInt("endereco_id") );
+		//Telefone telefone = telefoneDao.getByKey( rs.getInt("telefone_id") );
+		Endereco endereco = new Endereco();
+		
+		endereco.setId( rs.getInt("endereco_id") );
+		endereco.setCidade( rs.getString("cidade") );
+		endereco.setBairro( rs.getString("bairro") );
+		endereco.setLogradouro( rs.getString("logradouro") );
+		endereco.setNumeroResidencia( rs.getInt("numero_residencia") );
+		
+		Telefone telefone = new Telefone();
+		
+		telefone.setId( rs.getInt("telefone_id") );
+		telefone.setCodArea( rs.getInt("cod_area") );
+		telefone.setNumero( rs.getString("numero") );
+		
+		p.setEndereco(endereco);
+		p.setTelefone(telefone);
+		
+		return p;
+	}
 
 }

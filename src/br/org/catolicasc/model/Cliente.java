@@ -1,17 +1,15 @@
 package br.org.catolicasc.model;
 
 
-public class Cliente extends Pessoa {
+public class Cliente {
 
 	private int id;
 	private boolean locacao;
 	
-	// Um cliente é uma pessoa
 	private Pessoa pessoa;
 	
 
-	public Cliente() {}
-	
+	public Cliente() {}	
 	
 	public Cliente(int id, boolean locacao) {
 		this.locacao = locacao;
