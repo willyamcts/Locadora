@@ -1,7 +1,5 @@
 package br.org.catolicasc.ui;
 
-import java.util.Calendar;
-import java.util.Date;
 
 import br.org.catolicasc.dao.ClienteDao;
 import br.org.catolicasc.dao.DvdDao;
@@ -20,9 +18,9 @@ public class InterfaceLocacao extends InterfaceModelo {
 	private LocacaoDao locacaoDao = new LocacaoDao();
 	private ClienteDao clienteDao = new ClienteDao();
 
-	public void adicionar() {
-
-		
+	
+	
+	public void adicionar() {		
 		pulaLinhas();
 		System.out.print("\t INSERINDO LOCAÇÃO \n\n"
 				+ "Informe id do dvd: ");
@@ -32,45 +30,34 @@ public class InterfaceLocacao extends InterfaceModelo {
 		System.out.print("Informe o id do cliente: ");
 		int clienteId = entrada.nextInt();
 		entrada.nextLine();
+				
 		
 		
-		//Date alugado = dataAtual();
-		String alugado = dataAtual();
-		//Date devolucao = addDiasAData(6);
-		String devolucao = addDiasAData(6);
 		
-		
-		cliente = clienteDao.getByKey(clienteId);
-		//cliente.setPessoa(cliente.getPessoa());
-		cliente.setLocacao(true);
-		clienteDao.update(cliente);
-		
-		dvd = dvdDao.getByKey(dvdId);
-		dvd.setLocacao(true);
-		dvdDao.update(dvd);
+		if ( dvdDao.getByKey(dvdId).isLocacao() ) {
+			System.out.println("\n\n\t Não é possível inserir aluguel pois o DVD informado já está alugado.");
+		} else {
+			String alugado = dataAtual();
+			String devolucao = addDiasAData(6);
+			
+			
+			cliente = clienteDao.getByKey(clienteId);
+			//cliente.setPessoa(cliente.getPessoa());
+			cliente.setLocacao(true);
+			clienteDao.update(cliente);
+			
+			dvd = dvdDao.getByKey(dvdId);
+			dvd.setLocacao(true);
+			dvdDao.update(dvd);
 
-		/*
-		// Convert Date to Calendar
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(alugado);
-		
-		l.setAluguel(cal);
-
-		// Convert Date to Calendar
-		cal = null;
-		cal.setTime(devolucao);
-		
-		
-		l.setDevolucao(cal);
-		*/
-		
-		l.setAluguel(alugado);
-		l.setDevolucao(devolucao);
-		
-		
-		l.setDvd(dvd);
-		l.setCliente(cliente);				
-		locacaoDao.insert(l);
+			
+			l.setAluguel(alugado);
+			l.setDevolucao(devolucao);
+						
+			l.setDvd(dvd);
+			l.setCliente(cliente);				
+			locacaoDao.insert(l);
+		}
 		
 	}
 	
@@ -80,17 +67,40 @@ public class InterfaceLocacao extends InterfaceModelo {
 		
 	}
 
+	
 	public void editar() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	
 	public void excluir() {
-		// TODO Auto-generated method stub
+		
+		pulaLinhas();
+		System.out.print("\t REMOVENDO LOCAÇÃO \n"
+				+ "Insira o Id da locação a ser removida: ");
+		int locacaoId = entrada.nextInt();
+		
+		
+		l = locacaoDao.getByKey(locacaoId);
+		
+
+		//Alterar no cliente, locador para false; 
+		//cliente = clienteDao.getByKey(l.getCliente().getId());
+		cliente.setLocacao(false);
+		//clienteDao.update(cliente);
+		
+		
+		// Altera dvd para disponível em estoque
+		//dvd = dvdDao.getByKey(l.getDvd().getId());
+		dvd.setLocacao(false);
+		//dvdDao.update(dvd);
+		
+		
+		//l.setCliente(cliente);
+		
+		locacaoDao.delete(locacaoId);
 		
 	}
-	
-	
-	
 	
 }

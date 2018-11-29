@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.List;
 
 import br.org.catolicasc.model.Endereco;
-import br.org.catolicasc.model.Filme;
 
 public class EnderecoDao implements Dao<Endereco> {
 	

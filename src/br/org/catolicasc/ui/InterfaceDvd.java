@@ -1,7 +1,5 @@
 package br.org.catolicasc.ui;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import br.org.catolicasc.dao.DvdDao;
@@ -75,8 +73,7 @@ public class InterfaceDvd extends InterfaceModelo {
 		dvd.setFilme(filme);
 		dvd.setCod(geraRandom());
 		dvd.setLocacao(false);
-				
-		pulaLinhas();
+
 		dvdDao.insert(dvd);
 	}	
 	
@@ -84,39 +81,18 @@ public class InterfaceDvd extends InterfaceModelo {
 	
 	protected void removeDvd() {
 
+		pulaLinhas();
 		System.out.print("\t EXCLUINDO DVD \n"
 				+ "Informe o id do DVD: ");
-		int id = entrada.nextInt();
+		int dvdId = entrada.nextInt();
 		entrada.nextLine();
-		
-		
-		dvdDao.delete(id);
-				
-		/*
-		 * 
-		System.out.print("\t EXCLUINDO DVD \n"
-				+ "1- Por Id\n"
-				+ "2- Por nome\n"
-				+ "  Opção: ");		
-		int op = entrada.nextInt();
-		
-		
-		if ( op == 1 ) {
-			System.out.print("Informe o id do DVD: ");
-			int id = entrada.nextInt();
-			entrada.nextLine();
 
-			dvdDao.remove(id);
-		}
-		
-		
-		if ( op == 2 ) {
-			System.out.print("Informe o titulo do DVD: ");
-			String titulo = entrada.nextLine();
+		if ( dvdDao.getByKey(dvdId).isLocacao() ) {
+			System.out.println("\n\n\t Não é possível remover dvd, ele está locado.");
+		} else {
 			
-			//Metodo dao remove por titulo
+			dvdDao.delete(dvdId);		
 		}
-		*/
 		
 	}
 	

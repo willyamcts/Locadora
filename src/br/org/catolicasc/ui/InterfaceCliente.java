@@ -137,11 +137,20 @@ public class InterfaceCliente extends InterfaceModelo {
 	
 	
 	protected void removeCliente() {
+		
+		pulaLinhas();
 		System.out.print("\t REMOVENDO CLIENTE \n"
 				+ "Insira o Id do cliente a ser removido: ");
-		int cliente_id = entrada.nextInt();
+		int clienteId = entrada.nextInt();
 		
-		clienteDao.delete(cliente_id);
+		
+		if ( clienteDao.getByKey(clienteId).isLocacao() ) {
+			System.out.println("\n\n\t Não é possível remover cliente, ele possui ao menos uma locação.");
+		} else {
+
+			clienteDao.delete(clienteId);			
+		}		
+		
 	}	
 	
 	

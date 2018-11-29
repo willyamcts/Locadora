@@ -91,7 +91,7 @@ public class InterfacePrincipal extends InterfaceModelo {
 				break;
 				
 			case 5: 
-				//il.removeLocacao();
+				il.excluir();
 				break;
 			case 10: 
 				id.removeDvd();

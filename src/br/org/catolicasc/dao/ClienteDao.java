@@ -9,9 +9,7 @@ import java.util.List;
 
 import br.org.catolicasc.dao.DbConnection;
 import br.org.catolicasc.model.Cliente;
-import br.org.catolicasc.model.Endereco;
 import br.org.catolicasc.model.Pessoa;
-import br.org.catolicasc.model.Telefone;
 
 public class ClienteDao implements Dao<Cliente> {
 	
@@ -43,7 +41,6 @@ public class ClienteDao implements Dao<Cliente> {
 	            + "   PRIMARY KEY (id))";
 	    
 	    Connection conn = DbConnection.getConnection();
-
 
 	    Statement stmt = conn.createStatement();
 	    stmt.execute(sqlTable);

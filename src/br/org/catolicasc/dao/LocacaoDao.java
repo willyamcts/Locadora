@@ -1,26 +1,23 @@
 package br.org.catolicasc.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 
 import br.org.catolicasc.model.Cliente;
 import br.org.catolicasc.model.Dvd;
-import br.org.catolicasc.model.Filme;
 import br.org.catolicasc.model.Locacao;
 
 public class LocacaoDao implements Dao<Locacao> {
 	
-	private static final String GET_BY_ID = "SELECT * FROM locacao NATURAL JOIN dvd ON dvd_id = dvd.id "
-			+ "NATURAL JOIN cliente ON cliente_id = cliente.id WHERE id = ?";
-	private static final String GET_ALL = "SELECT * FROM locacao NATURAL JOIN dvd ON dvd_id = dvd.id "
-			+ "NATURAL JOIN cliente ON cliente_id = cliente.id";
+	private static final String GET_BY_ID = "SELECT * FROM locacao NATURAL JOIN dvd "
+			+ "NATURAL JOIN cliente WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM locacao NATURAL JOIN dvd "
+			+ "NATURAL JOIN cliente";
 	private static final String INSERT = "INSERT INTO locacao (data_locacao, data_devolucao, dvd_id, cliente_id) "
 			+ "VALUES (?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE locacao SET data_locacao = ?, data_devolucao = ?, "
@@ -111,6 +108,7 @@ public class LocacaoDao implements Dao<Locacao> {
 			if (rs.next()) {
 				l = getLocacaoRS(rs);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -152,7 +150,7 @@ public class LocacaoDao implements Dao<Locacao> {
 	
 	
 	/*
-	 * Update
+	 * Update - Not used
 	 */
 	@Override
 	public void update(Locacao t) {
@@ -161,7 +159,7 @@ public class LocacaoDao implements Dao<Locacao> {
 	
 	
 	/*
-	 * Delete - Not used
+	 * Delete
 	 */
 	@Override
 	public void delete(int id) {
@@ -172,9 +170,9 @@ public class LocacaoDao implements Dao<Locacao> {
 		try {
 			stmt = conn.prepareStatement(DELETE);
 			
-			stmt.setInt(1, id);
-			
+			stmt.setInt(1, id);			
 			stmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -202,6 +200,7 @@ public class LocacaoDao implements Dao<Locacao> {
 		l.setDevolucao(data);
 		*/
 		
+		/*
 		Filme f = new Filme();
 		//data = null;
 		//data.setTime(rs.getDate("data_lancamento"));
@@ -211,10 +210,13 @@ public class LocacaoDao implements Dao<Locacao> {
 		f.setDuracao(rs.getLong("duracao"));
 		f.setDataLancamento(rs.getString("data_lancamento"));
 		//f.setDataLancamento(data);
-		
+		*/
 		//data = null;
-		Dvd dvdLocado = new Dvd(rs.getInt("dvd_id"), rs.getInt("codigo"), rs.getBoolean("locado"), f); 
+		Dvd dvdLocado = new Dvd(rs.getInt("dvd_id"), rs.getInt("codigo"), rs.getBoolean("locado")); 
 		l.setDvd( dvdLocado );
+		
+		Cliente cliente = new Cliente( rs.getInt("cliente_id"), rs.getBoolean("locador") );		
+		l.setCliente(cliente);
 	
 		return l;
     }

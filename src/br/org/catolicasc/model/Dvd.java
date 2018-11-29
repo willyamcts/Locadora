@@ -13,9 +13,15 @@ public class Dvd {
 	
 	public Dvd() {}	
 
+	public Dvd(int id, int cod, boolean locacao) {
+		this.cod = cod;
+		this.locado = locacao;
+	}
+	
 	public Dvd(int id, int cod, boolean locacao, Filme filme) {
 		this.cod = cod;
 		this.locado = locacao;
+		this.filme = filme;
 	}
 	
 	

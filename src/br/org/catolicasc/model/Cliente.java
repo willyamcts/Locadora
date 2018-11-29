@@ -12,8 +12,14 @@ public class Cliente extends Pessoa {
 
 	public Cliente() {}
 	
-	public Cliente(Pessoa p) {
-		this.locacao = false;
+	
+	public Cliente(int id, boolean locacao) {
+		this.locacao = locacao;
+	}
+
+	public Cliente(int id, boolean locacao, Pessoa p) {
+		this.locacao = locacao;
+		this.pessoa = p;
 	}
 	
 	
