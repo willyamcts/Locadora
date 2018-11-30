@@ -1,6 +1,8 @@
 package br.org.catolicasc.ui;
 
 
+import java.util.List;
+
 import br.org.catolicasc.dao.ClienteDao;
 import br.org.catolicasc.dao.DvdDao;
 import br.org.catolicasc.dao.LocacaoDao;
@@ -63,7 +65,19 @@ public class InterfaceLocacao extends InterfaceModelo {
 	
 
 	public void listarTodos() {
-		// TODO Auto-generated method stub
+		
+		List<Locacao> locacoes = locacaoDao.getAll();
+		
+		pulaLinhas();
+		System.out.println("\t LISTA DE LOCAÇÕES: ");
+		System.out.println("Id\t Cliente\t Titulo filme\t\t Cod. Dvd");
+		
+		
+		for ( Locacao l: locacoes ) {
+
+			System.out.println(l.getId()+ "\t " +l.getCliente().getNome()+ "\t " 
+					+l.getDvd().getFilme().getTitulo()+ "\t " +l.getDvd().getCod());
+		}
 		
 	}
 
@@ -86,23 +100,20 @@ public class InterfaceLocacao extends InterfaceModelo {
 		
 
 		//Alterar no cliente, locador para false; 
-		int i  = l.getCliente().getId(); 
-		cliente = l.getCliente();
+		//cliente = clienteDao.getByKey(l.getCliente().getId());
 		cliente.setLocacao(false);
 		//clienteDao.update(cliente);
 		
 		
 		// Altera dvd para disponível em estoque
 		//dvd = dvdDao.getByKey(l.getDvd().getId());
-		//dvd.setId(l.getDvd().getId());
-		dvd = l.getDvd();
 		dvd.setLocacao(false);
-		dvdDao.update(dvd);
+		//dvdDao.update(dvd);
 		
 		
 		//l.setCliente(cliente);
 		
-		//locacaoDao.delete(locacaoId);
+		locacaoDao.delete(locacaoId);
 		
 	}
 	

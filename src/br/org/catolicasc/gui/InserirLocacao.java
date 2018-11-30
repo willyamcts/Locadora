@@ -3,6 +3,7 @@ package br.org.catolicasc.gui;
 import br.org.catolicasc.dao.ClienteDao;
 import br.org.catolicasc.dao.DvdDao;
 import br.org.catolicasc.dao.LocacaoDao;
+import br.org.catolicasc.main.MenuPrincipal;
 import br.org.catolicasc.model.Cliente;
 import br.org.catolicasc.model.Dvd;
 import br.org.catolicasc.model.Locacao;

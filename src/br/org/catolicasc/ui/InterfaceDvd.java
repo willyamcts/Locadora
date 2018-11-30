@@ -104,7 +104,7 @@ public class InterfaceDvd extends InterfaceModelo {
 		
 		pulaLinhas();		
 		System.out.println("\t LISTA DE DVDs: ");
-		System.out.println("Id\t Titulo\t\t\t Gênero\t Data de lançamento\t Duração\t Cod. Dvd\n");
+		System.out.println("Id\t Titulo\t\t\t Gênero\t Data de lançamento\t Duração\t\t Cod. Dvd\n");
 		
 		
 		for ( Dvd d: dvd ) {

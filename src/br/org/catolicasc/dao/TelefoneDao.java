@@ -74,6 +74,7 @@ public class TelefoneDao implements Dao<Telefone> {
 		}finally {
 		    DbConnection.closeConnection(conn, stmt, null);
 		}
+
 		
 		/*
 		} finally {
@@ -101,7 +102,7 @@ public class TelefoneDao implements Dao<Telefone> {
 			
 			if (rs.next()) {
 				t = getTelefoneRS(rs);
-			}
+			}	
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -158,18 +159,18 @@ public class TelefoneDao implements Dao<Telefone> {
 			DbConnection.closeConnection(conn, stmt, null);
 		}
 	}
-	
+
 	
 	
 	private Telefone getTelefoneRS(ResultSet rs) throws SQLException {
 		Telefone t = new Telefone();
-
-		t.setId( rs.getInt("id") );
+ 		t.setId( rs.getInt("id") );
 		t.setCodArea( rs.getInt("cod_area") );
 		t.setNumero( rs.getString("numero") );
 		
 		
 		return t;
 	}
+	
 	
 }

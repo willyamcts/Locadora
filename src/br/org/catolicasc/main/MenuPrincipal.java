@@ -1,4 +1,14 @@
-package br.org.catolicasc.gui;
+package br.org.catolicasc.main;
+
+import br.org.catolicasc.gui.InserirCliente;
+import br.org.catolicasc.gui.InserirDvd;
+import br.org.catolicasc.gui.InserirLocacao;
+import br.org.catolicasc.gui.ListarCliente;
+import br.org.catolicasc.gui.ListarDvd;
+import br.org.catolicasc.gui.ListarLocacao;
+import br.org.catolicasc.gui.RemoverCliente;
+import br.org.catolicasc.gui.RemoverDvd;
+import br.org.catolicasc.gui.RemoverLocacao;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

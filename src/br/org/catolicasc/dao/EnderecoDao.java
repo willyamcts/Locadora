@@ -83,26 +83,26 @@ public class EnderecoDao implements Dao<Endereco> {
 	@Override
 	public Endereco getByKey(int id) {
 		Connection conn = DbConnection.getConnection();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	
+	Endereco e = null;
+	
+	try {
+		stmt = conn.prepareStatement(GET_BY_ID);
+		stmt.setInt(1, id);
+		rs = stmt.executeQuery();
 		
-		Endereco e = null;
-		
-		try {
-			stmt = conn.prepareStatement(GET_BY_ID);
-			stmt.setInt(1, id);
-			rs = stmt.executeQuery();
-			
-			if (rs.next()) {
-				e = getEnderecoRS(rs);
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} finally {
-			DbConnection.closeConnection(conn, stmt, rs);
+		if (rs.next()) {
+			e = getEnderecoRS(rs);
 		}
-		
-		return e;
+	} catch (SQLException ex) {
+		ex.printStackTrace();
+	} finally {
+		DbConnection.closeConnection(conn, stmt, rs);
+	}
+	
+	return e;
 	}
 
 
@@ -125,7 +125,7 @@ public class EnderecoDao implements Dao<Endereco> {
 		// TODO Auto-generated method stub
 		
 	}
-		
+	
 	
 	
 	private Endereco getEnderecoRS(ResultSet rs) throws SQLException {

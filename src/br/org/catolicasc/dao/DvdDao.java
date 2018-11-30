@@ -106,7 +106,7 @@ public class DvdDao implements Dao<Dvd> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DbConnection.closeConnection(conn, stmt, rs);
+			//DbConnection.closeConnection(conn, stmt, rs);
 		}
 		
 		return d;

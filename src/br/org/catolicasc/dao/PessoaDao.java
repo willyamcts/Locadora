@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import br.org.catolicasc.model.Cliente;
 import br.org.catolicasc.model.Endereco;
 import br.org.catolicasc.model.Pessoa;
 import br.org.catolicasc.model.Telefone;
@@ -77,7 +78,7 @@ public class PessoaDao implements Dao<Pessoa> {
 				pessoa.setId(rs.getInt(1));
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao inserir pessoa.", e);
+			throw new RuntimeException("Erro ao inserir cliente.", e);
 		}finally {
 		    DbConnection.closeConnection(conn, stmt, null);
 		}
@@ -106,8 +107,8 @@ public class PessoaDao implements Dao<Pessoa> {
 		} finally {
 			DbConnection.closeConnection(conn, stmt, rs);
 		}
-		
-		return p;
+	
+	return p;
 	}
 
 
@@ -131,12 +132,13 @@ public class PessoaDao implements Dao<Pessoa> {
 		
 	}
 
-
+	
+	
 	private Pessoa getPessoaRS(ResultSet rs) throws SQLException {
 		EnderecoDao enderecoDao = new EnderecoDao();
 		TelefoneDao telefoneDao = new TelefoneDao();
-		Pessoa p = new Pessoa();
-	
+		Pessoa p = new Pessoa();		
+		
 		p.setId( rs.getInt("id") );
 		p.setNome( rs.getString("nome") );
 		p.setCpf( rs.getString("cpf") );
@@ -163,5 +165,5 @@ public class PessoaDao implements Dao<Pessoa> {
 		
 		return p;
 	}
-
+	
 }

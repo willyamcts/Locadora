@@ -4,6 +4,7 @@ import br.org.catolicasc.dao.ClienteDao;
 import br.org.catolicasc.dao.EnderecoDao;
 import br.org.catolicasc.dao.PessoaDao;
 import br.org.catolicasc.dao.TelefoneDao;
+import br.org.catolicasc.main.MenuPrincipal;
 import br.org.catolicasc.model.Cliente;
 import br.org.catolicasc.model.Endereco;
 import br.org.catolicasc.model.Pessoa;
@@ -28,9 +29,9 @@ public class InserirCliente extends javax.swing.JFrame {
 	private EnderecoDao enderecoDao = new EnderecoDao();
 	
 	private Cliente cliente = new Cliente();
-	private Pessoa pessoa = null;
-	private Telefone telefone = null;
-	private Endereco endereco = null;
+	private Pessoa pessoa = new Pessoa();
+	private Telefone telefone = new Telefone();
+	private Endereco endereco = new Endereco();
 	
     /**
      * Creates new form CadastroCliente

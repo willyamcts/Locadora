@@ -2,6 +2,7 @@ package br.org.catolicasc.gui;
 
 import br.org.catolicasc.dao.DvdDao;
 import br.org.catolicasc.dao.FilmeDao;
+import br.org.catolicasc.main.MenuPrincipal;
 import br.org.catolicasc.model.Dvd;
 import br.org.catolicasc.model.Filme;
 

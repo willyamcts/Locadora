@@ -101,7 +101,7 @@ public class InterfacePrincipal extends InterfaceModelo {
 				break;
 
 			case 21:
-				//il.listaTodosLocacao();
+				il.listarTodos();
 				break;
 			case 42:
 				id.listaTodosDvd();

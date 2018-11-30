@@ -10,8 +10,9 @@ import java.util.List;
 
 import br.org.catolicasc.dao.DbConnection;
 import br.org.catolicasc.model.Cliente;
-import br.org.catolicasc.model.Dvd;
+import br.org.catolicasc.model.Endereco;
 import br.org.catolicasc.model.Pessoa;
+import br.org.catolicasc.model.Telefone;
 
 public class ClienteDao implements Dao<Cliente> {
 	
@@ -19,7 +20,7 @@ public class ClienteDao implements Dao<Cliente> {
 	private static final String GET_ALL = "SELECT * FROM cliente NATURAL JOIN pessoa";
 	private static final String INSERT = "INSERT INTO cliente (pessoa_id, locador) "
 			+ "VALUES (?, ?)";
-	private static final String UPDATE = "UPDATE cliente SET locador = ?";
+	private static final String UPDATE = "UPDATE cliente SET pessoa_id = ?, locador = ?";
 	private static final String DELETE = "DELETE FROM cliente WHERE id = ?";
 
 	
@@ -110,7 +111,7 @@ public class ClienteDao implements Dao<Cliente> {
 	@Override
 	public List<Cliente> getAll() {
 		List<Cliente> clientes = new ArrayList<>();
-		
+	
 		Connection conn = DbConnection.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -129,7 +130,7 @@ public class ClienteDao implements Dao<Cliente> {
 		} finally {
 			DbConnection.closeConnection(conn, stmt, rs);
 		}
-		
+	
 		return clientes;
 	}
 	
@@ -183,53 +184,46 @@ public class ClienteDao implements Dao<Cliente> {
 	
 	
 	
-	private Cliente getClienteRs(ResultSet rs) throws SQLException {
-		Cliente c = new Cliente();
-		Pessoa pessoa = new Pessoa();
-		PessoaDao pessoaDao = new PessoaDao();
-		
-		c.setId( rs.getInt("id") );
-		c.setLocacao(rs.getBoolean("locador"));
+	private Cliente getClienteRs(ResultSet rs) throws SQLException
+    {
+		Cliente cliente = new Cliente();
+			
+		cliente.setId( rs.getInt("id") );
+		cliente.setLocacao(rs.getBoolean("locador"));
 		
 
-		pessoa = pessoaDao.getByKey( rs.getInt("pessoa_id") );
+		Pessoa p = new Pessoa();		
 		
-		c.setPessoa(pessoa);
+		p.setId( rs.getInt("pessoa_id") );
+		p.setNome( rs.getString("nome") );
+		p.setCpf( rs.getString("cpf") );
+		p.setIdade( rs.getInt("idade") );
 		
 		
 		/*
 		Telefone tel = new Telefone();
-		tel.setId(rs.getInt("id"));
+		
+		tel.setId(rs.getInt("telefone_id"));
 		tel.setCodArea(rs.getInt("cod_area"));
 		tel.setNumero(rs.getString("numero"));
 		
+		
 		Endereco endereco = new Endereco();
-		endereco.setId(rs.getInt("id"));
+		
+		endereco.setId( rs.getInt("p.endereco_id"));
 		endereco.setCidade(rs.getString("cidade"));
 		endereco.setBairro(rs.getString("bairro"));
 		endereco.setLogradouro(rs.getString("logradouro"));
 		endereco.setNumeroResidencia(rs.getInt("numero_residencia"));
+		
+		
+		p.setEndereco(endereco);
+		p.setTelefone(tel);
 		*/
 		
-		
-		/*
-		
-		p.setId(rs.getInt("pessoa_id"));
-		p.setCpf(rs.getString("cpf"));
-		p.setIdade(rs.getInt("idade"));
-		//p.setEndereco(endereco);
-		//p.setTelefone(tel);
-		
-		//Pessoa p = new Pessoa(rs.getInt("pessoa_id"), rs.getString("cpf"), rs.getInt("idade"), tel, endereco); 
-		
-		//cliente.setPessoa( new Pessoa());
-		//cliente.setPessoa( new Pessoa(rs.getInt("pessoa_id"), rs.getString("nome"), rs.getString("cpf"),
-		//		rs.getInt("idade"), rs.XXXXXX("endereco"), rs.getInt("telefone_id")) );
-		
-		c.setPessoa(p);
-		*/
-		
-		return c;
+		cliente.setPessoa(p);
+	
+		return cliente;
     }
 	
 	
